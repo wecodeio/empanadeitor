@@ -1,0 +1,5 @@
+<h1>Editar lugar de comida</h1>
+<%= form_for(@place) do |f| %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= f.submit %>
+<% end %>
