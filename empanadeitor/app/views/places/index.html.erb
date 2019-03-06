@@ -1,0 +1,7 @@
+<ul>
+  <%= link_to 'Añadir lugar', new_place_path %>
+  <% @places.each do |place| %>
+    <%= link_to place.name, place_path(place.id) %>
+    <br><br>
+  <% end %>
+</ul>
