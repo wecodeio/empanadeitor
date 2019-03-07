@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col">
+    <h1>Listado de lugares</h1>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col">
+    <%= link_to 'Añadir lugar', new_place_path, class: 'btn btn-primary btn-sm' %>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Telefono</th>
+        <th scope="col">Direccion</th>
+        <th scope="col">Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @places.each do |place| %>
+        <tr>
+          <td><%= place.name %></td>
+          <td><%= place.phone %></td>
+          <td><%= place.address %></td>
+          <td>
+            <%= link_to 'Ver', place_path(place), class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Editar', edit_place_path(place.id), class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Eliminar', { :action => :destroy, :id => place.id }, :method => :delete,
+                        :data => { :confirm => '¿Estas seguro?' }, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
+
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

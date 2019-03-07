@@ -1,0 +1,9 @@
+<div class="row justify-content-center">
+  <div class="col col-8">
+    <h1>Editar lugar de comida</h1>
+    <%= form_for(@place) do |f| %>
+      <%= render partial: 'form', locals: {f: f} %>
+      <%= f.submit "Actualizar", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
