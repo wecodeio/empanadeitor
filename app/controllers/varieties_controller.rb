@@ -1,5 +1,9 @@
 class VarietiesController < ApplicationController
 
+  def index
+    @varieties = Variety.all
+  end
+
   def new
     @places = Place.all
     @variety = Variety.new
@@ -12,6 +16,17 @@ class VarietiesController < ApplicationController
     else
       render 'new'
     end
+  end
+
+  def edit
+    @places = Place.all
+    @variety = Variety.find(params[:id])
+  end
+
+  def update
+    @variety = Variety.find(params[:id])
+    @variety.update(variety_params)
+    redirect_to varieties_path
   end
 
   private
