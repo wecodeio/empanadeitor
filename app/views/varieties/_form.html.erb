@@ -9,5 +9,5 @@
 <div class="form-group">
   <%= f.label :address, 'Lugar' %>
   <%= f.select :place_id, options_for_select(@places.map{ |place|
-    [place.name, place.id] }) %>
+    [place.name, place.id] }),{}, class: 'form-control' %>
 </div>
