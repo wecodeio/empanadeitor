@@ -29,6 +29,12 @@ class VarietiesController < ApplicationController
     redirect_to varieties_path
   end
 
+  def destroy
+    @variety = Variety.find(params[:id])
+    @variety.destroy
+    redirect_to varieties_path
+  end
+
   private
   def variety_params
     params.require(:variety).permit(:name, :price, :place_id)
