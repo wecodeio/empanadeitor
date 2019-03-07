@@ -12,7 +12,7 @@ class VarietiesController < ApplicationController
   def create
     @variety = Variety.new(variety_params)
     if @variety.save
-      redirect_to variety_path
+      redirect_to varieties_path
     else
       render 'new'
     end
