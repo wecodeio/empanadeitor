@@ -1,0 +1,13 @@
+<div class="form-group">
+  <%= f.label :name, 'Nombre' %>
+  <%= f.text_field :name, required: true, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <%= f.label :phone, 'Precio' %>
+  <%= f.text_field :price, class: 'form-control' %>
+</div>
+<div class="form-group">
+  <%= f.label :address, 'Lugar' %>
+  <%= f.select :place_id, options_for_select(@places.map{ |place|
+    [place.name, place.id] }) %>
+</div>
