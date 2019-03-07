@@ -22,10 +22,14 @@
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">Variedades:</h5>
     </div>
+    <% if @place.varieties.any? %>
     <ul>
       <% @place.varieties.each do |variety| %>
         <li><%= variety.name %></li>
       <% end %>
     </ul>
+    <% else %>
+      <p>No se han cargado variedades para este lugar</p>
+    <% end %>
   </li>
 </ul>
