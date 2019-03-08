@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :varieties
   resources :orders, only: [:index, :new, :create]
   get '/orders/new/:id', to: 'orders#newOrder', as: "newOrder"
+  post '/orders/new/:id', to: 'orders#create'
 end
