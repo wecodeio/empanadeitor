@@ -1,0 +1,25 @@
+<p>Pedido para <%= @place.name %></p>
+<div class="row">
+  <div class="col">
+<table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Variedad</th>
+        <th scope="col"><%=text_field :name, required: true, class: 'form-control' %></th>
+        <th scope="col"><%=text_field :name, required: true, class: 'form-control' %></th>
+        <th scope="col"><%=text_field :name, required: true, class: 'form-control' %></th>
+        <th scope="col"><%=text_field :name, required: true, class: 'form-control' %></th>
+        <th scope="col">Total</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @place.varieties.each do |variety| %>
+        <tr>
+            <td><%= variety.name %></td>
+        <tr> 
+        <% end %>
+      </tbody>
+</table>
+</div>
+</div>
+<button type="button" class="btn btn-primary">Pedir</button>
