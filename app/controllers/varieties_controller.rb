@@ -14,6 +14,7 @@ class VarietiesController < ApplicationController
     if @variety.save
       redirect_to varieties_path
     else
+      @places = Place.all
       render 'new'
     end
   end
@@ -25,8 +26,12 @@ class VarietiesController < ApplicationController
 
   def update
     @variety = Variety.find(params[:id])
-    @variety.update(variety_params)
-    redirect_to varieties_path
+    if @variety.update(variety_params)
+      redirect_to varieties_path
+    else
+      @places = Place.all
+      render 'edit'
+    end
   end
 
   def destroy
