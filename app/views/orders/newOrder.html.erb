@@ -1,12 +1,12 @@
 <p>Pedido para <%= @place.name %></p>
 <div class="row">
   <div class="col">
-    <%= form_for (:order) do |f| %>
+    <%= form_for :order, url: create_order_path do |f| %>
       <table class="table table-striped">
         <thead>
         <tr>
           <th scope="col">Variedad</th>
-          <% 4.times do |x| %>
+          <% 8.times do |x| %>
             <th scope="col"><%= f.text_field "name[#{x}]", class: 'form-control' %></th>
           <% end %>
         </tr>
@@ -15,7 +15,7 @@
         <% @place.varieties.each do |variety| %>
           <tr>
             <td><%= variety.name %></td>
-            <% 4.times do |x| %>
+            <% 8.times do |x| %>
               <td><%= f.number_field "q[#{variety.id}][#{x}]", min: 0, value: 0 ,class: 'form-control' %></td>
             <% end %>
           </tr>
