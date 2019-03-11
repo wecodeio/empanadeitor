@@ -1,5 +1,13 @@
-<h2><%= session[:place]['name'] %></h2>
-<h3>Teléfono: <%= session[:place]['phone'] %></h3>
+<h1>Pedido finalizado</h1>
+<div class="row">
+  <div class="col">
+    <h3>Datos del comercio</h3>
+    <ul>
+      <li><%= session[:place]['name'] %></li>
+      <li>Teléfono: <%= session[:place]['phone'] %></li>
+    </ul>
+  </div>
+</div>
 <table class="table table-striped">
   <thead>
   <tr>
