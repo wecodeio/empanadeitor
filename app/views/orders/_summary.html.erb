@@ -2,19 +2,23 @@
 <tr>
   <th scope="col">Variedad</th>
   <th scope="col">Total por variedad</th>
-  <% keys = session[:order]['total_order_by_person'].keys %>
-  <% session[:order]['total_order_by_person'][keys[0]].keys.each do |name| %>
-    <th scope="col"><%= name %></th>
+  <% session[:order_participants].each do |person_name| %>
+    <th scope="col"><%= person_name %></th>
   <% end %>
 </tr>
 </thead>
 <tbody>
-<% session[:order]['total_order'].each do |variety_order| %>
+<% session[:varieties_to_buy].each do |variety| %>
   <tr>
-    <td><%= variety_order['variety'] %></td>
-    <td><%= variety_order['quantity'] %></td>
-    <% session[:order]['total_order_by_person'][variety_order['variety']].each do |name, quantity| %>
-      <td><%= quantity %></td>
+    <td><%= variety %></td>
+    <td><%= session[:order].total_units_per_variety[variety] %></td>
+    <% session[:order_participants].each do |person_name| %>
+      <% detail = session[:order].order_details.select {|d| d.person == person_name && d.variety == variety} %>
+      <% if detail.length > 0 %>
+        <td><%= detail[0].quantity %></td>
+      <% else %>
+        <td>0</td>
+      <% end %>
     <% end %>
   </tr>
 <% end %>

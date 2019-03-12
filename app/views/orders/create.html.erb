@@ -10,11 +10,12 @@
 </div>
 <table class="table table-striped">
   <%= render partial: 'summary' %>
+  <tfoot>
   <tr>
     <td><strong>Total de empanadas</strong></td>
-    <td><strong><%= session[:order]['sum_of_all_varieties'] %></strong></td>
-    <% session[:order]['sum_of_varieties_by_person'].values.each do |quantity| %>
-      <td><%= quantity %></td>
+    <td><strong><%= session[:order].total_units %></strong></td>
+    <% session[:order_participants].each do |person| %>
+      <td><%= session[:order].total_units_per_person[person] %></td>
     <% end %>
   </tr>
   </tfoot>
