@@ -64,25 +64,4 @@ class OrdersController < ApplicationController
     session[:order]['sum_of_all_varieties'] = sum_of_all_varieties
   end
 
-  # todo
-=begin
-  def clean_others_entry
-    others_has_orders = false
-    @total_order_by_person.each do |variety, order_by_person|
-      order_by_person.each do |name, quantity|
-        if name == 'Otros' and quantity != 0
-          others_has_orders = true
-        end
-      end
-    end
-    unless others_has_orders
-      @total_order_by_person.each do |variety, order_by_person|
-        order_by_person.each do |name, quantity|
-          @total_order_by_person[variety].delete name
-        end
-      end
-    end
-    @total_order_by_person
-  end
-=end
 end
