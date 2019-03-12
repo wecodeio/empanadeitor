@@ -9,39 +9,19 @@
   </div>
 </div>
 <table class="table table-striped">
-  <thead>
-  <tr>
-    <th scope="col">Variedad</th>
-    <th scope="col">Total por variedad</th>
-    <% keys = @total_order_by_person.keys %>
-    <% @total_order_by_person[keys[0]].keys.each do |name| %>
-      <th scope="col"><%= name %></th>
-    <% end %>
-  </tr>
-  </thead>
-  <tbody>
-  <% @total_order.each do |variety_order| %>
-    <tr>
-      <td><%= variety_order['variety']['name'] %></td>
-      <td><%= variety_order['quantity'] %></td>
-      <% @total_order_by_person[variety_order['variety']['name']].each do |name, quantity| %>
-        <td><%= quantity %></td>
-      <% end %>
-    </tr>
-  <% end %>
-  </tbody>
+  <%= render partial: 'summary'%>
   <tfoot>
   <tr>
     <td><strong>Total de empanadas</strong></td>
-    <td><strong><%= @sum_of_all_varieties %></strong></td>
-    <% @sum_of_varieties_by_person.values.each do |quantity| %>
+    <td><strong><%= session[:order]['sum_of_all_varieties'] %></strong></td>
+    <% session[:order]['sum_of_varieties_by_person'].values.each do |quantity| %>
       <td><%= quantity %></td>
     <% end %>
   </tr>
   <tr>
     <td><strong>Pagos por persona</strong></td>
     <td></td>
-    <% @price_by_person.values.each do |price| %>
+    <% session[:order]['price_by_person'].values.each do |price| %>
       <td>$ <%= price %></td>
     <% end %>
   </tr>
