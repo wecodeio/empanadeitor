@@ -12,7 +12,7 @@
       <% @places.each do |place| %>
         <tr>
             <td><%= place.name %></td>
-            <td><%= link_to 'Crear orden', newOrder_path(place.id), class: 'btn btn-primary btn-sm' %></td>
+            <td><%= link_to 'Crear orden', new_order_path(place.id), class: 'btn btn-primary btn-sm' %></td>
             <br>
             <br>
             </tr>
