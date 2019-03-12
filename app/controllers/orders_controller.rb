@@ -9,7 +9,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-    session[:order] = {}
     params[:order].permit!
     fill_order
     save_list_of_participants
