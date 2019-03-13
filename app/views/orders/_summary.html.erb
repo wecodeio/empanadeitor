@@ -11,9 +11,9 @@
 <% session[:varieties_to_buy].each do |variety| %>
   <tr>
     <td><%= variety %></td>
-    <td><%= session[:order].total_units_per_variety[variety] %></td>
+    <td><%= @order.total_units_per_variety[variety] %></td>
     <% session[:order_participants].each do |person_name| %>
-      <% detail = session[:order].order_details.select {|d| d.person == person_name && d.variety == variety} %>
+      <% detail = @order.order_details.select {|d| d.person == person_name && d.variety == variety} %>
       <% if detail.length > 0 %>
         <td><%= detail[0].quantity %></td>
       <% else %>

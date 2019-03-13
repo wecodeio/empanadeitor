@@ -10,20 +10,16 @@ class OrdersController < ApplicationController
 
   def create
     params[:order].permit!
-    fill_order
+    session[:input_user] = params[:order].to_h
+    @order = fill_order
     save_list_of_participants
+    
   end
 
   def finish
-    price = params[:price]['price'].to_i
-    price_by_person = {}
-    sum_of_all_varieties = session[:order]['sum_of_all_varieties']
-    sum_of_varieties_by_person = session[:order]['sum_of_varieties_by_person']
-    price_per_unit = price / sum_of_all_varieties
-    sum_of_varieties_by_person.each do |person, quantity|
-      price_by_person[person] = price_per_unit * sum_of_varieties_by_person[person]
-    end
-    session[:order]['price_by_person'] = price_by_person
+    @price_by_person = {}
+    @order = fill_order
+    @order.price = params[:price]['price'].to_i
   end
 
   private
@@ -31,8 +27,8 @@ class OrdersController < ApplicationController
   def fill_order
     varieties_to_buy = []
     order = Order.new
-    params[:order][:q].to_h.map do |person_id, varieties_chosen|
-      person_name = params[:order]['name'][person_id]
+    session[:input_user]['q'].map do |person_id, varieties_chosen|
+      person_name = session[:input_user]['name'][person_id]
       varieties_chosen.map do |variety_id, quantity|
         variety_name = (Variety.find(variety_id)).name
         if quantity.to_i > 0
@@ -42,8 +38,8 @@ class OrdersController < ApplicationController
         end
       end
     end
-    session[:order] = order
     session[:varieties_to_buy] = varieties_to_buy.uniq
+    order
   end
 
   def save_list_of_participants

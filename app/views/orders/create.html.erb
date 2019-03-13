@@ -13,9 +13,9 @@
   <tfoot>
   <tr>
     <td><strong>Total de empanadas</strong></td>
-    <td><strong><%= session[:order].total_units %></strong></td>
+    <td><strong><%= @order.total_units %></strong></td>
     <% session[:order_participants].each do |person| %>
-      <td><%= session[:order].total_units_per_person[person] %></td>
+      <td><%= @order.total_units_per_person[person] %></td>
     <% end %>
   </tr>
   </tfoot>
@@ -23,7 +23,7 @@
 <%= form_for :price, url: finish_order_path do |f| %>
   <div class="form-group">
     <%= f.label 'Precio' %>
-    <%= f.text_field 'price', class: 'form-control' %>
+    <%= f.text_field 'price', required:true, class: 'form-control' %>
   </div>
   <button type="submit" class="btn btn-primary">Finalizar</button>
 <% end %>

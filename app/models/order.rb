@@ -28,4 +28,20 @@ class Order
     total_units_per_person
   end
 
+  def price_per_person
+    load_prices
+    price_per_person = Hash.new(0)
+    order_details.each do |detail|
+      price_per_person[detail.person] += detail.price
+    end
+    price_per_person
+  end
+
+  def load_prices
+    price_per_unit = @price / total_units
+    order_details.each do |detail|
+      detail.price = detail.quantity * price_per_unit
+    end
+  end
+
 end

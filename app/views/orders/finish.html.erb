@@ -13,16 +13,16 @@
   <tfoot>
   <tr>
     <td><strong>Total de empanadas</strong></td>
-    <td><strong><%= session[:order]['sum_of_all_varieties'] %></strong></td>
-    <% session[:order]['sum_of_varieties_by_person'].values.each do |quantity| %>
-      <td><%= quantity %></td>
+    <td><strong><%= @order.total_units %></strong></td>
+    <% session[:order_participants].each do |person| %>
+      <td><%= @order.total_units_per_person[person] %></td>
     <% end %>
   </tr>
   <tr>
-    <td><strong>Pagos por persona</strong></td>
-    <td></td>
-    <% session[:order]['price_by_person'].values.each do |price| %>
-      <td>$ <%= price %></td>
+    <td><strong>Total precio</strong></td>
+    <td>$ <%= @order.price %></td>
+    <% session[:order_participants].each do |person| %>
+      <td>$ <%= @order.price_per_person[person] %></td>
     <% end %>
   </tr>
   </tfoot>
