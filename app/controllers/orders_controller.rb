@@ -33,7 +33,7 @@ class OrdersController < ApplicationController
         variety_name = (Variety.find(variety_id)).name
         if quantity.to_i > 0
           order_detail = OrderDetail.new(person_name, variety_name, quantity.to_i)
-          order.order_details << order_detail
+          order.add_order_detail(order_detail)
           varieties_to_buy << variety_name
         end
       end

@@ -1,11 +1,15 @@
 class Order
 
-  attr_reader :order_details, :price
-  attr_accessor :order_details, :price
+  attr_reader :order_details
+  attr_accessor :price
 
   def initialize
     @order_details = []
     @price = 0.0
+  end
+
+  def add_order_detail(order_detail)
+    order_details << order_detail
   end
 
   def total_units_per_variety
@@ -15,7 +19,7 @@ class Order
     end
     total_units_per_variety
   end
-
+  
   def total_units
     total_units_per_variety.values.sum
   end
