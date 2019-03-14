@@ -14,14 +14,14 @@
   <tr>
     <td><strong>Total de empanadas</strong></td>
     <td><strong><%= @order.total_units %></strong></td>
-    <% session[:order_participants].each do |person| %>
+    <% @order.list_of_participants.each do |person| %>
       <td><%= @order.total_units_per_person[person] %></td>
     <% end %>
   </tr>
   <tr>
     <td><strong>Total precio</strong></td>
     <td>$ <%= @order.price %></td>
-    <% session[:order_participants].each do |person| %>
+    <% @order.list_of_participants.each  do |person| %>
       <td>$ <%= @order.price_per_person[person] %></td>
     <% end %>
   </tr>
