@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   post '/orders/create', to: 'orders#create', as: "create_order"
   get '/orders/show_order', as: "show_order"
   post '/orders/finish', to: 'orders#finish', as: 'finish_order'
+  root 'orders#index'
 end
