@@ -1,4 +1,6 @@
-class VarietiesController < ApplicationController
+class Admin::VarietiesController < ApplicationController
+
+  http_basic_authenticate_with name: ENV['ID'], password: ENV['KEY']
 
   def index
     @varieties = Variety.all
@@ -12,7 +14,7 @@ class VarietiesController < ApplicationController
   def create
     @variety = Variety.new(variety_params)
     if @variety.save
-      redirect_to varieties_path
+      redirect_to admin_varieties_path
     else
       @places = Place.all
       render 'new'
@@ -27,7 +29,7 @@ class VarietiesController < ApplicationController
   def update
     @variety = Variety.find(params[:id])
     if @variety.update(variety_params)
-      redirect_to varieties_path
+      redirect_to admin_varieties_path
     else
       @places = Place.all
       render 'edit'
@@ -37,7 +39,7 @@ class VarietiesController < ApplicationController
   def destroy
     @variety = Variety.find(params[:id])
     @variety.destroy
-    redirect_to varieties_path
+    redirect_to admin_varieties_path
   end
 
   private

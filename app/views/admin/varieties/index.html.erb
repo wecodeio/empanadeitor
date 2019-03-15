@@ -6,7 +6,7 @@
 <br>
 <div class="row">
   <div class="col">
-    <%= link_to 'Añadir variedad', new_variety_path, class: 'btn btn-primary btn-sm' %>
+    <%= link_to 'Añadir variedad', new_admin_variety_path, class: 'btn btn-primary btn-sm' %>
   </div>
 </div>
 <br>
@@ -28,7 +28,7 @@
           <td><%= variety.price %></td>
           <td><%= variety.place.name %></td>
           <td>
-            <%= link_to 'Editar', edit_variety_path(variety.id), class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Editar', edit_admin_variety_path(variety.id), class: 'btn btn-primary btn-sm' %>
             <%= link_to 'Eliminar', { :action => :destroy, :id => variety.id }, :method => :delete,
                         :data => { :confirm => '¿Estas seguro?' }, class: 'btn btn-danger btn-sm' %>
           </td>

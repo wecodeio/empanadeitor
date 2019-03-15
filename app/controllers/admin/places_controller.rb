@@ -1,4 +1,6 @@
-class PlacesController < ApplicationController
+class Admin::PlacesController < ApplicationController
+
+  http_basic_authenticate_with name: ENV['ID'], password: ENV['KEY']
 
   def index
     @places = Place.all
@@ -11,7 +13,7 @@ class PlacesController < ApplicationController
   def create
     @place = Place.new(place_params)
     if @place.save
-      redirect_to places_path
+      redirect_to admin_places_path
     else
       render 'new'
     end
@@ -28,13 +30,13 @@ class PlacesController < ApplicationController
   def update
     @place = Place.find(params[:id])
     @place.update(place_params)
-    redirect_to places_path
+    redirect_to admin_places_path
   end
 
   def destroy
     @place = Place.find(params[:id])
     @place.destroy
-    redirect_to places_path
+    redirect_to admin_places_path
   end
 
   private
