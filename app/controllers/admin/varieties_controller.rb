@@ -1,6 +1,7 @@
 class Admin::VarietiesController < ApplicationController
 
   http_basic_authenticate_with name: ENV['ID'], password: ENV['KEY']
+  layout 'admin_application'
 
   def new
     @place = Place.find(params[:place_id])
