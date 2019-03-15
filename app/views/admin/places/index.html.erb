@@ -6,7 +6,10 @@
 <br>
 <div class="row">
   <div class="col">
-    <%= link_to 'Añadir lugar', new_admin_place_path, class: 'btn btn-primary btn-sm' %>
+    <%= link_to  new_admin_place_path, class: 'btn btn-primary btn-sm' do %>
+      <i class="fas fa-plus-square"></i>
+      Añadir lugar
+    <% end %>
   </div>
 </div>
 <br>
@@ -28,11 +31,20 @@
           <td><%= place.phone %></td>
           <td><%= place.address %></td>
           <td>
-            <%= link_to 'Ver', admin_place_path(place), class: 'btn btn-primary btn-sm' %>
-            <%= link_to 'Añadir variedad', new_admin_place_variety_path(place.id), class: 'btn btn-primary btn-sm' %>
-            <%= link_to 'Editar', edit_admin_place_path(place.id), class: 'btn btn-primary btn-sm' %>
-            <%= link_to 'Eliminar', { :action => :destroy, :id => place.id }, :method => :delete,
-                        :data => { :confirm => '¿Estas seguro?' }, class: 'btn btn-danger btn-sm' %>
+            <%= link_to admin_place_path(place), class: 'btn btn-secondary btn-sm', title: 'Ver' do %>
+              <i class="fas fa-eye"></i>
+            <% end %>
+            <%= link_to new_admin_place_variety_path(place.id), class: 'btn btn-secondary btn-sm',
+                        title: 'Añadir variedad' do %>
+              <i class="fas fa-plus-square"></i>
+            <% end %>
+            <%= link_to edit_admin_place_path(place.id), class: 'btn btn-secondary btn-sm', title: 'Editar' do %>
+              <i class="fas fa-edit"></i>
+            <% end %>
+            <%= link_to admin_place_path(place), method: :delete,
+                        data: {confirm: '¿Estas seguro?'}, class: 'btn btn-danger btn-sm', title: 'Eliminar' do %>
+              <i class="fas fa-trash-alt"></i>
+            <% end %>
           </td>
         </tr>
 
