@@ -21,11 +21,12 @@
     <tr>
       <td><%= variety.name %></td>
       <td>
-        <%= link_to edit_admin_place_variety_path(@place.id, variety.id), class: 'btn btn-secondary btn-sm' do %>
+        <%= link_to edit_admin_place_variety_path(@place.id, variety.id), class: 'btn btn-secondary btn-sm',
+                    title: 'Editar Variedad' do %>
           <i class="fas fa-edit"></i>
         <% end %>
         <%= link_to admin_place_variety_path(@place.id, variety.id), method: :delete,
-                    data: {confirm: '¿Estas seguro?'}, class: 'btn btn-danger btn-sm' do %>
+                    data: {confirm: '¿Estas seguro?'}, class: 'btn btn-danger btn-sm', title: 'Eliminar variedad' do %>
           <i class="fas fa-trash-alt"></i>
         <% end %>
       </td>
