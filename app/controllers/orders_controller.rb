@@ -22,7 +22,6 @@ class OrdersController < ApplicationController
   private
 
   def fill_order
-    varieties_to_buy = []
     order = Order.new
     session[:input_user]['q'].map do |person_id, varieties_chosen|
       person_name = session[:input_user]['name'][person_id]
