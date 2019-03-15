@@ -4,6 +4,8 @@
     <%= form_for :order, url: create_order_path do |f| %>
       <table class="table table-striped">
         <thead>
+        <th></th>
+        <th scope="col" colspan = 8 id="nombres-integrantes">Nombres de los integrantes del pedido</th>
         <tr>
           <th scope="col">Variedad</th>
           <% 8.times do |x| %>
