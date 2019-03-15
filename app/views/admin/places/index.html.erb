@@ -29,6 +29,7 @@
           <td><%= place.address %></td>
           <td>
             <%= link_to 'Ver', admin_place_path(place), class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Añadir variedad', new_admin_place_variety_path(place.id), class: 'btn btn-primary btn-sm' %>
             <%= link_to 'Editar', edit_admin_place_path(place.id), class: 'btn btn-primary btn-sm' %>
             <%= link_to 'Eliminar', { :action => :destroy, :id => place.id }, :method => :delete,
                         :data => { :confirm => '¿Estas seguro?' }, class: 'btn btn-danger btn-sm' %>

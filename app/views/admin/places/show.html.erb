@@ -22,14 +22,26 @@
     <div class="d-flex w-100 justify-content-between">
       <h5 class="mb-1">Variedades:</h5>
     </div>
-    <% if @place.varieties.any? %>
-    <ul>
+    <p><%= link_to 'Añadir variedad', new_admin_place_variety_path(@place.id), class: 'btn btn-primary btn-sm' %></p>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
       <% @place.varieties.each do |variety| %>
-        <li><%= variety.name %></li>
+        <tr>
+          <td><%= variety.name %></td>
+          <td>
+            <%= link_to 'Editar', edit_admin_place_variety_path(@place.id, variety.id), class: 'btn btn-primary btn-sm' %>
+            <%= link_to 'Eliminar', admin_place_variety_path(@place.id, variety.id), method: :delete,
+                        data: {confirm: '¿Estas seguro?'}, class: 'btn btn-danger btn-sm' %>
+          </td>
+        </tr>
       <% end %>
-    </ul>
-    <% else %>
-      <p>No se han cargado variedades para este lugar</p>
-    <% end %>
+      </tbody>
+    </table>
   </li>
 </ul>

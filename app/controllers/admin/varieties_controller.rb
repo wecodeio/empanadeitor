@@ -2,36 +2,31 @@ class Admin::VarietiesController < ApplicationController
 
   http_basic_authenticate_with name: ENV['ID'], password: ENV['KEY']
 
-  def index
-    @varieties = Variety.all
-  end
-
   def new
-    @places = Place.all
+    @place = Place.find(params[:place_id])
     @variety = Variety.new
   end
 
   def create
     @variety = Variety.new(variety_params)
+    place = Place.find(params[:place_id])
+    @variety.place = place
     if @variety.save
-      redirect_to admin_varieties_path
+      redirect_to admin_place_path(place.id)
     else
-      @places = Place.all
       render 'new'
     end
   end
 
   def edit
-    @places = Place.all
     @variety = Variety.find(params[:id])
   end
 
   def update
     @variety = Variety.find(params[:id])
     if @variety.update(variety_params)
-      redirect_to admin_varieties_path
+      redirect_to admin_place_path(@variety.place_id)
     else
-      @places = Place.all
       render 'edit'
     end
   end
@@ -39,11 +34,11 @@ class Admin::VarietiesController < ApplicationController
   def destroy
     @variety = Variety.find(params[:id])
     @variety.destroy
-    redirect_to admin_varieties_path
+    redirect_to admin_place_path(@variety.place_id)
   end
 
   private
   def variety_params
-    params.require(:variety).permit(:name, :price, :place_id)
+    params.require(:variety).permit(:name)
   end
 end

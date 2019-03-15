@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :admin do
-    resources :places
-    resources :varieties
+    resources :places do
+      resources :varieties, except: [:index, :show]
+    end
   end
   resources :orders, only: [:index, :create]
   get '/orders/new/:id', to: 'orders#new_order', as: "new_order"
