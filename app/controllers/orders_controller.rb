@@ -3,14 +3,13 @@ class OrdersController < ApplicationController
     @places = Place.all
   end
 
-  def new_order
-    @place = Place.find(params[:id])
-    session[:place] = @place
+  def new
+    @order = Order.new
+    @place = Place.find(params[:place_id])
   end
 
   def create
     params[:order].permit!
-    session[:input_user] = params[:order].to_h
     @order = fill_order
   end
 
@@ -22,18 +21,18 @@ class OrdersController < ApplicationController
   private
 
   def fill_order
-    order = Order.new
-    session[:input_user]['q'].map do |person_id, varieties_chosen|
-      person_name = session[:input_user]['name'][person_id]
+    place = params[:order][:id]
+    order = Order.create
+    params[:order]['q'].map do |person_id, varieties_chosen|
+      person_name = params[:order]['name'][person_id]
       varieties_chosen.map do |variety_id, quantity|
-        variety_name = (Variety.find(variety_id)).name
+        variety = Variety.find(variety_id)
         if quantity.to_i > 0 
           unless person_name.empty?
-            order_detail = OrderDetail.new(person_name, variety_name, quantity.to_i)
+           OrderDetail.create(name: person_name, variety: variety, quantity: quantity.to_i, order: order)
           else
-            order_detail = OrderDetail.new('Others', variety_name, quantity.to_i)
-          end  
-            order.add_order_detail(order_detail)
+            OrderDetail.create('Others', variety_name, quantity.to_i)
+          end
         end
       end
     end
