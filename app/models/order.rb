@@ -6,7 +6,7 @@ class Order < ApplicationRecord
   def total_units_per_variety
     total_units_per_variety = Hash.new(0)
     self.order_details.each do |detail|
-      total_units_per_variety[detail.variety] += detail.quantity
+      total_units_per_variety[detail.variety_id] += detail.quantity
     end
     total_units_per_variety
   end
@@ -34,7 +34,7 @@ class Order < ApplicationRecord
 
   def load_prices
     price_per_unit = @price / total_units
-    order_details.each do |detail|
+    self.order_details.each do |detail|
       detail.price = detail.quantity * price_per_unit
     end
   end
@@ -44,15 +44,15 @@ class Order < ApplicationRecord
     self.order_details.each do |detail|
         participants << detail.person
     end 
-    participants.uniq!
+    participants.uniq
   end
 
   def  varieties_to_buy 
     varieties_to_buy =[]
     self.order_details.each do |detail|
-      varieties_to_buy << detail.variety
+      varieties_to_buy << Variety.find(detail.variety_id)
     end
-    varieties_to_buy.uniq!
+    varieties_to_buy.uniq
   end
 
 end

@@ -10,10 +10,10 @@
 <tbody>
 <% @order.varieties_to_buy.each do |variety| %>
   <tr>
-    <td><%= variety %></td>
-    <td><%= @order.total_units_per_variety[variety] %></td>
+    <td><%= variety.name %></td>
+    <td><%= @order.total_units_per_variety[variety.id] %></td>
     <% @order.list_of_participants.each do |person_name| %>
-      <% detail = @order.order_details.select {|d| d.person == person_name && d.variety == variety} %>
+      <% detail = @order.order_details.select {|d| d.person == person_name && d.variety_id == variety.id} %>
         <% if detail.length > 0 %>
           <td><%= detail.sum(&:quantity) %></td>
         <% else %>

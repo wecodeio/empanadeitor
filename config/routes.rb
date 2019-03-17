@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   resources :places
   resources :varieties
   resources :orders
+  post '/orders/finish', to: 'orders#finish', as: 'finish_order'
   root 'orders#index'
 end

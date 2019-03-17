@@ -3,8 +3,8 @@
   <div class="col">
     <h3>Datos del comercio</h3>
     <ul>
-      <li><%= session[:place]['name'] %></li>
-      <li>Teléfono: <%= session[:place]['phone'] %></li>
+      <li><%= @order.place.name %></li>
+      <li>Teléfono: <%= @order.place.phone %></li>
     </ul>
   </div>
 </div>
