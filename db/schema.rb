@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2019_03_15_201147) do
     t.integer "order_id"
     t.integer "variety_id"
     t.integer "quantity"
+    t.decimal "price", precision: 10, scale: 2, default: "0.0"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

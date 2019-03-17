@@ -33,7 +33,7 @@ class Order < ApplicationRecord
   end
 
   def load_prices
-    price_per_unit = @price / total_units
+    price_per_unit = self.price / total_units
     self.order_details.each do |detail|
       detail.price = detail.quantity * price_per_unit
     end
