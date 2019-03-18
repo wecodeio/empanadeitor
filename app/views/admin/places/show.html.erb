@@ -1,0 +1,37 @@
+<h1><%= @place.name %></h1>
+<p><i class="fas fa-phone"></i> <%= @place.phone %></p>
+<p><i class="fas fa-map-marker-alt"></i> <%= @place.address %></p>
+<h4>Variedades:</h4>
+
+<p>
+  <%= link_to new_admin_place_variety_path(@place.id), class: 'btn btn-primary btn-sm' do %>
+    <i class="fas fa-plus-square"></i>
+    Añadir variedad
+    <% end %>
+</p>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">Nombre</th>
+    <th scope="col">Acciones</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @place.varieties.each do |variety| %>
+    <tr>
+      <td><%= variety.name %></td>
+      <td>
+        <%= link_to edit_admin_place_variety_path(@place.id, variety.id), class: 'btn btn-secondary btn-sm',
+                    title: 'Editar Variedad' do %>
+          <i class="fas fa-edit"></i>
+        <% end %>
+        <%= link_to admin_place_variety_path(@place.id, variety.id), method: :delete,
+                    data: {confirm: '¿Estas seguro?'}, class: 'btn btn-danger btn-sm', title: 'Eliminar variedad' do %>
+          <i class="fas fa-trash-alt"></i>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
