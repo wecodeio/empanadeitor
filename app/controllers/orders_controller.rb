@@ -7,11 +7,11 @@ class OrdersController < ApplicationController
     @order = Order.new
     place = Place.find(params[:place_id])
     @order.place_id = place.id
-    @order.save
   end
 
   def create
     @order = fill_order
+    @order.save
     redirect_to order_path(@order.id)
   end
 
