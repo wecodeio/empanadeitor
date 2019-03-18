@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :places do
       resources :varieties, except: [:index, :show]
     end
+    root 'places#index'
   end
   resources :orders, only: [:index, :create]
   get '/orders/new/:id', to: 'orders#new_order', as: "new_order"
