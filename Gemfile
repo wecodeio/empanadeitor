@@ -48,6 +48,10 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+
+  # Deployments
+  gem 'mina', '~> 1.2'
+  gem 'mina-multistage', '1.0.3', require: false
 end
 
 group :test do
@@ -64,3 +68,11 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'mysql2'
 
 gem 'byebug'
+
+gem 'dotenv-rails', groups: [:development, :test]
+
+gem 'bullet', group: 'development'
+
+gem 'rack-mini-profiler'
+
+gem 'uniform_notifier'

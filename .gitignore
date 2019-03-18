@@ -63,3 +63,6 @@ yarn-debug.log*
 
 config/database.yml
 .idea/**
+
+.deploy_password
+config/deploy/
