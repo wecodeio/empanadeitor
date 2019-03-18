@@ -4,13 +4,19 @@ class Admin::VarietiesController < ApplicationController
   layout 'admin_application'
 
   def new
-    @place = Place.find(params[:place_id])
+    @place = Place.find_by(id: params[:place_id])
+    if !@place
+      redirect_to admin_places_path
+    end
     @variety = Variety.new
   end
 
   def create
+    place = Place.find_by(id: params[:place_id])
+    if !place
+      redirect_to places_path
+    end
     @variety = Variety.new(variety_params)
-    place = Place.find(params[:place_id])
     @variety.place = place
     if @variety.save
       redirect_to admin_place_path(place.id)
@@ -20,11 +26,17 @@ class Admin::VarietiesController < ApplicationController
   end
 
   def edit
-    @variety = Variety.find(params[:id])
+    @variety = Variety.find_by(id: params[:id], place_id: params[:place_id])
+    if !@variety
+      redirect_to admin_places_path
+    end
   end
 
   def update
-    @variety = Variety.find(params[:id])
+    @variety = Variety.find_by(id: params[:id])
+    if !@variety
+      redirect_to admin_places_path
+    end
     if @variety.update(variety_params)
       redirect_to admin_place_path(@variety.place_id)
     else
@@ -33,7 +45,10 @@ class Admin::VarietiesController < ApplicationController
   end
 
   def destroy
-    @variety = Variety.find(params[:id])
+    @variety = Variety.find_by(id: params[:id])
+    if !@variety
+      redirect_to admin_places_path
+    end
     @variety.destroy
     redirect_to admin_place_path(@variety.place_id)
   end

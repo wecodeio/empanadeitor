@@ -10,7 +10,7 @@ class Admin::PlacesController < ApplicationController
   def new
     @place = Place.new
   end
-  
+
   def create
     @place = Place.new(place_params)
     if @place.save
@@ -21,26 +21,41 @@ class Admin::PlacesController < ApplicationController
   end
 
   def show
-    @place = Place.find(params[:id])
+    @place = Place.find_by(id: params[:id])
+    if !@place
+      redirect_to admin_places_path
+    end
   end
 
   def edit
-    @place = Place.find(params[:id])
+    @place = Place.find_by(id: params[:id])
+    if !@place
+      redirect_to admin_places_path
+    end
   end
 
   def update
-    @place = Place.find(params[:id])
-    @place.update(place_params)
-    redirect_to admin_places_path
+    @place = Place.find_by(id: params[:id])
+    if !@place
+      redirect_to admin_places_path
+    else
+      @place.update(place_params)
+      redirect_to admin_places_path
+    end
   end
 
   def destroy
-    @place = Place.find(params[:id])
-    @place.destroy
-    redirect_to admin_places_path
+    @place = Place.find_by(id: params[:id])
+    if !@place
+      redirect_to admin_places_path
+    else
+      @place.destroy
+      redirect_to admin_places_path
+    end
   end
 
   private
+
   def place_params
     params.require(:place).permit(:name, :phone, :address)
   end
