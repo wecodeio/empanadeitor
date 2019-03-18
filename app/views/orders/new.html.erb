@@ -1,7 +1,7 @@
 <h1>Pedido para <%= @order.place.name %></h1>
 <div class="row">
   <div class="col">
-    <%= form_for :order_new, url: orders_path(order_id: @order.id) do |f| %>
+    <%= form_for :order_new, url: orders_path(place_id: @order.place_id) do |f| %>
       <table class="table table-striped">
         <thead>
         <th></th>

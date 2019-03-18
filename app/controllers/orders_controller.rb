@@ -11,6 +11,7 @@ class OrdersController < ApplicationController
 
   def create
     @order = fill_order
+    @order.place_id = params[:place_id]
     @order.save
     redirect_to order_path(@order.id)
   end
@@ -27,18 +28,14 @@ class OrdersController < ApplicationController
   private
 
   def fill_order
+    order = Order.new
     params[:order_new].permit!
-    order = Order.find(params[:order_id])
     params[:order_new]['q'].to_h.map do |person_id, varieties_chosen|
-      person_name = params[:order_new]['name'][person_id]
+      person_name = params[:order_new]['name'][person_id].presence || 'Others'
       varieties_chosen.map do |variety_id, quantity|
         variety = Variety.find(variety_id)
-        if quantity.to_i > 0 
-          unless person_name.empty?
-            OrderDetail.create(person: person_name, order_id: order.id, variety_id: variety.id, quantity: quantity.to_i)
-          else
-            OrderDetail.create(person: 'Other', order_id: order.id, variety_id: variety.id, quantity: quantity.to_i)
-          end
+        if quantity.to_i > 0
+            order.order_details << OrderDetail.new(person: person_name, order_id: order.id, variety_id: variety.id, quantity: quantity.to_i)
         end
       end
     end
