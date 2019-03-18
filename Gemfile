@@ -69,10 +69,6 @@ gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'bullet', group: 'development'
 
-gem 'ruby-growl'
-
-gem 'xmpp4r'
-
 gem 'rack-mini-profiler'
 
 gem 'uniform_notifier'
