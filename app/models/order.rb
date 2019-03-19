@@ -1,12 +1,11 @@
 class Order < ApplicationRecord
 
   has_many :order_details
-  belongs_to :place
 
   def total_units_per_variety
     total_units_per_variety = Hash.new(0)
     self.order_details.each do |detail|
-      total_units_per_variety[detail.variety_id] += detail.quantity
+      total_units_per_variety[detail.variety_name] += detail.quantity
     end
     total_units_per_variety
   end
@@ -50,7 +49,7 @@ class Order < ApplicationRecord
   def  varieties_to_buy 
     varieties_to_buy =[]
     self.order_details.each do |detail|
-      varieties_to_buy << Variety.find(detail.variety_id)
+      varieties_to_buy << detail.variety_name
     end
     varieties_to_buy.uniq
   end

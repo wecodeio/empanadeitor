@@ -5,13 +5,16 @@ class OrdersController < ApplicationController
 
   def new
     @order = Order.new
-    place = Place.find(params[:place_id])
-    @order.place_id = place.id
+    @place = Place.find(params[:place_id])
+    @order.place_name = @place.name
   end
 
   def create
     @order = fill_order
-    @order.place_id = params[:place_id]
+    place = Place.find(params[:place_id])
+    @order.place_name = place.name
+    @order.place_address = place.address
+    @order.place_phone = place.phone
     @order.save
     redirect_to order_path(@order.id)
   end
@@ -35,7 +38,7 @@ class OrdersController < ApplicationController
       varieties_chosen.map do |variety_id, quantity|
         variety = Variety.find(variety_id)
         if quantity.to_i > 0
-            order.order_details << OrderDetail.new(person: person_name, order_id: order.id, variety_id: variety.id, quantity: quantity.to_i)
+            order.order_details << OrderDetail.new(person: person_name, order_id: order.id, variety_name: variety.name, quantity: quantity.to_i)
         end
       end
     end

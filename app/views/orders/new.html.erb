@@ -1,7 +1,7 @@
-<h1>Pedido para <%= @order.place.name %></h1>
+<h1>Pedido para <%= @order.place_name %></h1>
 <div class="row">
   <div class="col">
-    <%= form_for :order_new, url: orders_path(place_id: @order.place_id) do |f| %>
+    <%= form_for :order_new, url: orders_path(place_id: params[:place_id]) do |f| %>
       <table class="table table-striped">
         <thead>
         <th></th>
@@ -14,7 +14,7 @@
         </tr>
         </thead>
         <tbody>
-        <% @order.place.varieties.each do |variety| %>
+        <% @place.varieties.each do |variety| %>
           <tr>
             <td><%= variety.name %></td>
             <% 8.times do |x| %>
