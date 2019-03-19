@@ -1,0 +1,25 @@
+<thead>
+<tr>
+  <th scope="col">Variedad</th>
+  <th scope="col">Total por variedad</th>
+  <% @order.list_of_participants.each do |person_name| %>
+    <th scope="col"><%= person_name %></th>
+  <% end %>
+</tr>
+</thead>
+<tbody>
+<% @order.varieties_to_buy.each do |variety| %>
+  <tr>
+    <td><%= variety %></td>
+    <td><%= @order.total_units_per_variety[variety] %></td>
+    <% @order.list_of_participants.each do |person_name| %>
+      <% detail = @order.order_details.select {|d| d.person == person_name && d.variety == variety} %>
+        <% if detail.length > 0 %>
+          <td><%= detail.sum(&:quantity) %></td>
+        <% else %>
+          <td>0</td>
+        <% end %>
+    <% end %>
+  </tr>
+<% end %>
+</tbody>

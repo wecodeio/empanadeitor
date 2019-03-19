@@ -1,11 +1,7 @@
-<div class="row">
-  <div class="col">
-    <h1>Añadir Variedad</h1>
-  </div>
-</div>
 <div class="row justify-content-center">
   <div class="col col-8">
-    <%= form_for(@variety) do |f| %>
+    <h1>Añadir lugar de comida</h1>
+    <%= form_for([:admin, @place]) do |f| %>
       <%= render partial: 'form', locals: {f: f} %>
       <%= f.submit "Añadir", class: "btn btn-primary" %>
     <% end %>

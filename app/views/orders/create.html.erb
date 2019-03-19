@@ -1,0 +1,29 @@
+<h1>Finalizar pedido</h1>
+<div class="row">
+  <div class="col">
+    <h3>Datos del comercio</h3>
+    <ul>
+      <li><%= session[:place]['name'] %></li>
+      <li>Teléfono: <%= session[:place]['phone'] %></li>
+    </ul>
+  </div>
+</div>
+<table class="table table-striped">
+  <%= render partial: 'summary' %>
+  <tfoot>
+  <tr>
+    <td><strong>Total de empanadas</strong></td>
+    <td><strong><%= @order.total_units %></strong></td>
+    <% @order.list_of_participants.each do |person| %>
+      <td><%= @order.total_units_per_person[person] %></td>
+    <% end %>
+  </tr>
+  </tfoot>
+</table>
+<%= form_for :price, url: finish_order_path do |f| %>
+  <div class="form-group">
+    <%= f.label 'Precio' %>
+    <%= f.text_field 'price', required:true, class: 'form-control' %>
+  </div>
+  <button type="submit" class="btn btn-primary">Finalizar</button>
+<% end %>
