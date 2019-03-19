@@ -69,7 +69,7 @@ gem 'mysql2'
 
 gem 'byebug'
 
-gem 'dotenv-rails', groups: [:development, :test]
+gem 'dotenv-rails'
 
 gem 'bullet', group: 'development'
 
