@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   end
   resources :orders do
     post :finish, on: :member
+    #post :new_custom_place, on: :member, to: 'orders#new'
   end
+  post 'orders/new_custom_place', to:'orders#new', as: 'new_custom_place_order'
   root 'orders#index'
 end

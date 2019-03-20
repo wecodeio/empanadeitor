@@ -1,11 +1,11 @@
 <h1>Pedido para <%= @order.place_name %></h1>
 <div class="row">
   <div class="col">
-    <%= form_for :input_order, url: orders_path(place_id: params[:place_id], order_id: @order.id) do |f| %>
+    <%= form_for :input_order, url: orders_path(place_id: params[:place_id], order_id: params[:order_id]) do |f| %>
       <table class="table table-striped">
         <thead>
         <th></th>
-        <th scope="col" colspan=8 id="nombres-integrantes">Nombres de los integrantes del pedido</th>
+        <th scope="col" colspan = 8 id="nombres-integrantes">Nombres de los integrantes del pedido</th>
         <tr>
           <th scope="col">Variedad</th>
           <% 8.times do |x| %>
@@ -14,12 +14,11 @@
         </tr>
         </thead>
         <tbody>
-        <% @place.varieties.each do |variety| %>
+        <% 5.times do |v| %>
           <tr>
-            <td><%= variety.name %></td>
+            <td><%= f.text_field "variety[#{v}]" %></td>
             <% 8.times do |x| %>
-              <td><%= f.number_field "q[#{x}][#{variety.name.parameterize}]", min: 0, value: 0 ,class: 'form-control' %></td>
-<!--             <td> <%#= f.number_field "q[#{x}][" + raw(variety.name) + "]", min: 0, value: 0, class: 'form-control' %></td>-->
+              <td><%= f.number_field "q[#{x}][#{v}]", min: 0, value: 0 ,class: 'form-control' %></td>
             <% end %>
           </tr>
         <% end %>
