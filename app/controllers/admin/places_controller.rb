@@ -11,8 +11,10 @@ class Admin::PlacesController < Admin::BaseController
   def create
     @place = Place.new(place_params)
     if @place.save
+      flash[:success] = I18n.t('activerecord.messages.create')
       redirect_to admin_places_path
     else
+      flash[:danger] = I18n.t('activerecord.errors.messages.create')
       render 'new'
     end
   end
@@ -20,6 +22,7 @@ class Admin::PlacesController < Admin::BaseController
   def show
     @place = Place.find_by(id: params[:id])
     if !@place
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
       redirect_to admin_places_path
     end
   end
@@ -27,6 +30,7 @@ class Admin::PlacesController < Admin::BaseController
   def edit
     @place = Place.find_by(id: params[:id])
     if !@place
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
       redirect_to admin_places_path
     end
   end
@@ -34,20 +38,29 @@ class Admin::PlacesController < Admin::BaseController
   def update
     @place = Place.find_by(id: params[:id])
     if !@place
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
       redirect_to admin_places_path
     else
-      @place.update(place_params)
-      redirect_to admin_places_path
+      if @place.update(place_params)
+        flash[:success] = I18n.t('activerecord.messages.update')
+        redirect_to admin_places_path
+      else
+        render 'edit'
+      end
     end
   end
 
   def destroy
     @place = Place.find_by(id: params[:id])
     if !@place
-      redirect_to admin_places_path
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
     else
-      @place.destroy
-      redirect_to admin_places_path
+      if @place.destroy
+        flash[:success] = I18n.t('activerecord.messages.delete')
+      else 
+        flash[:danger] = I18n.t('activerecord.errors.messages.delete')
+      end
+    redirect_to admin_places_path
     end
   end
 
@@ -56,4 +69,5 @@ class Admin::PlacesController < Admin::BaseController
   def place_params
     params.require(:place).permit(:name, :phone, :address)
   end
+
 end
