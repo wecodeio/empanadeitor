@@ -3,6 +3,7 @@ class Admin::VarietiesController < Admin::BaseController
   def new
     @place = Place.find_by(id: params[:place_id])
     if !@place
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
       redirect_to admin_places_path
     end
     @variety = Variety.new
@@ -11,11 +12,13 @@ class Admin::VarietiesController < Admin::BaseController
   def create
     place = Place.find_by(id: params[:place_id])
     if !place
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
       redirect_to places_path
     end
     @variety = Variety.new(variety_params)
     @variety.place = place
     if @variety.save
+      flash[:success] = I18n.t('activerecord.messages.create')
       redirect_to admin_place_path(place.id)
     else
       render 'new'
@@ -25,6 +28,7 @@ class Admin::VarietiesController < Admin::BaseController
   def edit
     @variety = Variety.find_by(id: params[:id], place_id: params[:place_id])
     if !@variety
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
       redirect_to admin_places_path
     end
   end
@@ -32,9 +36,11 @@ class Admin::VarietiesController < Admin::BaseController
   def update
     @variety = Variety.find_by(id: params[:id])
     if !@variety
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
       redirect_to admin_places_path
     end
     if @variety.update(variety_params)
+      flash[:success] = I18n.t('activerecord.messages.update')
       redirect_to admin_place_path(@variety.place_id)
     else
       render 'edit'
@@ -44,9 +50,14 @@ class Admin::VarietiesController < Admin::BaseController
   def destroy
     @variety = Variety.find_by(id: params[:id])
     if !@variety
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
       redirect_to admin_places_path
     end
-    @variety.destroy
+    if @variety.destroy
+      flash[:success] = I18n.t('activerecord.messages.delete')
+    else
+      flash[:danger] = I18n.t('activerecord.errors.messages.delete')
+    end
     redirect_to admin_place_path(@variety.place_id)
   end
 

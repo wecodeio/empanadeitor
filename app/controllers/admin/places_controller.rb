@@ -14,7 +14,6 @@ class Admin::PlacesController < Admin::BaseController
       flash[:success] = I18n.t('activerecord.messages.create')
       redirect_to admin_places_path
     else
-      flash[:danger] = I18n.t('activerecord.errors.messages.create')
       render 'new'
     end
   end

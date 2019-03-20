@@ -7,12 +7,11 @@ es-AR:
         restrict_dependent_destroy:
           has_one: No se puede eliminar el registro porque existe un %{record} dependiente
           has_many: No se puede eliminar el registro porque existen %{record} dependientes
-        create:  No se pudo crear el registro 
         delete: No se pudo eliminar el registro
         url: La url ingresada no es valida
     messages:
       create: Se pudo crear el registro
-      update: se pudo actualizar el registro
+      update: Se pudo actualizar el registro
       delete: Se pudo eliminar el registro
   date:
     abbr_day_names:
