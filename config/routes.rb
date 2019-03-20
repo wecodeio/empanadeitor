@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     end
     root 'places#index'
   end
-  resources :orders
-  post '/orders/finish', to: 'orders#finish', as: 'finish_order'
+  resources :orders do
+    post :finish, on: :member
+  end
   root 'orders#index'
 end
