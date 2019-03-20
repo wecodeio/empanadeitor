@@ -1,7 +1,7 @@
 <h1>Pedido para <%= @order.place_name %></h1>
 <div class="row">
   <div class="col">
-    <%= form_for :order_new, url: orders_path(place_id: params[:place_id]) do |f| %>
+    <%= form_for :input_order, url: orders_path(place_id: params[:place_id]) do |f| %>
       <table class="table table-striped">
         <thead>
         <th></th>
@@ -16,7 +16,8 @@
         <tbody>
         <% @place.varieties.each do |variety| %>
           <tr>
-            <td><%= variety.name %></td>
+            <td><%= variety.name %></td
+  end>
             <% 8.times do |x| %>
               <td><%= f.number_field "q[#{x}][#{variety.id}]", min: 0, value: 0 ,class: 'form-control' %></td>
             <% end %>

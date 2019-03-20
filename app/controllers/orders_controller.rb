@@ -32,9 +32,9 @@ class OrdersController < ApplicationController
 
   def fill_order
     order = Order.new
-    params[:order_new].permit!
-    params[:order_new]['q'].to_h.map do |person_id, varieties_chosen|
-      person_name = params[:order_new]['name'][person_id].presence || 'Others'
+    params[:input_order].permit!
+    params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
+      person_name = params[:input_order]['name'][person_id].presence || 'Others'
       varieties_chosen.map do |variety_id, quantity|
         variety = Variety.find(variety_id)
         if quantity.to_i > 0
