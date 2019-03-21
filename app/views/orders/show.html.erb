@@ -24,7 +24,6 @@
   <div class="form-group">
     <%= f.label 'Precio' %>
     <%= f.text_field 'price', required: true, class: 'form-control' %>
-    <%= f.text_field 'id', value: @order.id, type: 'hidden' %>
   </div>
   <%= f.button 'Finalizar', class: 'btn btn-primary' %>
 <% end %>
