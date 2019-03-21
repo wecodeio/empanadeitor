@@ -3,8 +3,8 @@
   <div class="col">
     <h3>Datos del comercio</h3>
     <ul>
-      <li><%= session[:place]['name'] %></li>
-      <li>Teléfono: <%= session[:place]['phone'] %></li>
+      <li><%= @order.place_name %></li>
+      <li>Teléfono: <%= @order.place_phone %></li>
     </ul>
   </div>
 </div>
@@ -20,10 +20,10 @@
   </tr>
   </tfoot>
 </table>
-<%= form_for :price, url: finish_order_path do |f| %>
+<%= form_for :order_data, url: finish_order_path do |f| %>
   <div class="form-group">
     <%= f.label 'Precio' %>
-    <%= f.text_field 'price', required:true, class: 'form-control' %>
+    <%= f.text_field 'price', required: true, class: 'form-control' %>
   </div>
-  <button type="submit" class="btn btn-primary">Finalizar</button>
+  <%= f.button 'Finalizar', class: 'btn btn-primary' %>
 <% end %>

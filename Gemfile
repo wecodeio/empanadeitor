@@ -67,8 +67,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'mysql2'
 
-gem 'byebug'
-
 gem 'dotenv-rails'
 
 gem 'bullet', group: 'development'

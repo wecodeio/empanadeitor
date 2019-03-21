@@ -6,10 +6,8 @@ Rails.application.routes.draw do
     end
     root 'places#index'
   end
-  resources :orders, only: [:index, :create]
-  get '/orders/new/:id', to: 'orders#new_order', as: "new_order"
-  post '/orders/create', to: 'orders#create', as: "create_order"
-  get '/orders/show_order', as: "show_order"
-  post '/orders/finish', to: 'orders#finish', as: 'finish_order'
+  resources :orders do
+    post :finish, on: :member
+  end
   root 'orders#index'
 end

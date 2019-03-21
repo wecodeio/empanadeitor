@@ -13,7 +13,7 @@
     <td><%= variety %></td>
     <td><%= @order.total_units_per_variety[variety] %></td>
     <% @order.list_of_participants.each do |person_name| %>
-      <% detail = @order.order_details.select {|d| d.person == person_name && d.variety == variety} %>
+      <% detail = @order.order_details.select {|d| d.person == person_name && d.variety_name == variety} %>
         <% if detail.length > 0 %>
           <td><%= detail.sum(&:quantity) %></td>
         <% else %>
