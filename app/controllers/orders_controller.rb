@@ -10,11 +10,12 @@ class OrdersController < ApplicationController
       @order.place_name = @place.name
       @order.place_address = @place.address
       @order.place_phone = @place.phone
+      @order.save
     else
       @order.place_name = params[:custom_place][:name]
+      @order.save
       render 'new_custom_place'
     end
-    @order.save
   end
 
   def create
@@ -38,7 +39,13 @@ class OrdersController < ApplicationController
     params[:input_order].permit!
     params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
       person_name = params[:input_order]['name'][person_id].presence || 'Others'
-      varieties_chosen.map do |variety_name, quantity|
+      varieties_chosen.map do |variety_id, quantity|
+        variety = Variety.find_by(id: variety_id)
+        if variety && variety.place.name == @order.place_name
+          variety_name = variety.name
+        else
+          variety_name = params[:input_order][:variety][variety_id.to_s]
+        end
         if quantity.to_i > 0
             @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, variety_name: variety_name, quantity: quantity.to_i)
         end
