@@ -6,15 +6,13 @@ class OrdersController < ApplicationController
   def new
     @order = Order.new
     @place = Place.find(params[:place_id])
-    @order.place_name = @place.name
+    @order.place= @place
   end
 
   def create
     @order = fill_order
     place = Place.find(params[:place_id])
-    @order.place_name = place.name
-    @order.place_address = place.address
-    @order.place_phone = place.phone
+    @order.place= place
     @order.save
     redirect_to order_path(@order.id)
   end
