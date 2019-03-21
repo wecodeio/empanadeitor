@@ -2,6 +2,12 @@ class Order < ApplicationRecord
 
   has_many :order_details
 
+  def place= place
+    self.place_name = place.name
+    self.place_address = place.address
+    self.place_phone = place.phone
+  end
+
   def total_units_per_variety
     total_units_per_variety = Hash.new(0)
     self.order_details.each do |detail|

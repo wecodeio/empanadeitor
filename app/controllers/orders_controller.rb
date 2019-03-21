@@ -28,7 +28,7 @@ class OrdersController < ApplicationController
   end
 
   def finish
-    @order = Order.find(params[:order_data][:id])
+    @order = Order.find(params[:id])
     @order.price = params[:order_data]['price'].to_i
   end
 

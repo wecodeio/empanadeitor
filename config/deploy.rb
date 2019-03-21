@@ -9,7 +9,7 @@ set :repository, 'git@github.com:wecodeio/empanadeitor.git'
 set :forward_agent, true     # SSH forward_agent.
 set :term_mode, :pretty #nil
 set :shared_dirs, fetch(:shared_dirs, []).push('public/system', 'log', 'tmp', 'storage')
-set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml', 'config/credentials.yml.enc', 'config/master.key', '.rails_env')
+set :shared_files, fetch(:shared_files, []).push('config/database.yml', 'config/secrets.yml', 'config/credentials.yml.enc', 'config/master.key', '.rails_env', '.env')
 
 # This task is the environment that is loaded for all remote run commands, such as
 # `mina deploy` or `mina rake`.
