@@ -48,13 +48,13 @@ class OrdersController < ApplicationController
     params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
       person_name = params[:input_order]['name'][person_id].presence || 'Others'
       varieties_chosen.map do |variety_id, quantity|
-        variety = Variety.find_by(id: variety_id)
-        if variety && variety.place.name == @order.place_name
+        if @order.place_id
+          variety = Variety.find_by(id: variety_id)
           variety_name = variety.name
         else
           variety_name = params[:input_order][:variety][variety_id.to_s]
         end
-        if quantity.to_i > 0
+        if quantity.to_i > 0 && variety_name.present?
           @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, variety_name: variety_name, quantity: quantity.to_i)
         end
       end
