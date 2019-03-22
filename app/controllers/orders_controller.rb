@@ -5,25 +5,25 @@ class OrdersController < ApplicationController
 
   def new
     @order = Order.new
-    if params[:place_id]
-      @place = Place.find(params[:place_id])
-      @order.place_name = @place.name
-      @order.place_address = @place.address
-      @order.place_phone = @place.phone
-      @order.save
-    else
-      @order.place_name = params[:custom_place][:name]
-      @order.save
-      render 'new_custom_place'
-    end
+    @place = Place.find(params[:place_id])
+    @order.place_name = @place.name
+    @order.place_address = @place.address
+    @order.place_phone = @place.phone
+    @order.save
+  end
+
+  def new_custom_place
+    @order = Order.new
+    @order.place_name = params[:custom_place][:name]
+    @order.save
   end
 
   def create
     fill_order
-    redirect_to order_path(@order.id)
+    redirect_to confirm_order_path(@order.id)
   end
 
-  def show
+  def confirm
     @order = Order.find(params[:id])
   end
 
@@ -47,7 +47,7 @@ class OrdersController < ApplicationController
           variety_name = params[:input_order][:variety][variety_id.to_s]
         end
         if quantity.to_i > 0
-            @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, variety_name: variety_name, quantity: quantity.to_i)
+          @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, variety_name: variety_name, quantity: quantity.to_i)
         end
       end
     end

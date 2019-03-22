@@ -4,7 +4,9 @@
     <h3>Datos del comercio</h3>
     <ul>
       <li><%= @order.place_name %></li>
-      <li>Teléfono: <%= @order.place_phone %></li>
+      <% if @order.place_phone %>
+        <li>Teléfono: <%= @order.place_phone %></li>
+      <% end %>
     </ul>
   </div>
 </div>

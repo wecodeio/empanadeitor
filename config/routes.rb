@@ -6,10 +6,10 @@ Rails.application.routes.draw do
     end
     root 'places#index'
   end
-  resources :orders do
+  resources :orders, except: [:show] do
+    get :new_custom_place, on: :collection, to: 'orders#new_custom_place'
+    get :confirm, on: :member
     post :finish, on: :member
-    #post :new_custom_place, on: :member, to: 'orders#new'
   end
-  post 'orders/new_custom_place', to:'orders#new', as: 'new_custom_place_order'
   root 'orders#index'
 end

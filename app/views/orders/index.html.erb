@@ -19,7 +19,7 @@
           </tr>
         <% end %>
         <tr>
-          <%= form_for :custom_place, url: new_custom_place_order_path do |f| %>
+          <%= form_for :custom_place, method: :get, url: new_custom_place_orders_path do |f| %>
             <td><%= f.text_field :name, value: 'Otro lugar' %></td>
             <td><button type="submit" class="btn btn-primary btn-sm"%>Crear orden</button></td>
           <% end %>
