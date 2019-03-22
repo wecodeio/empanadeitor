@@ -6,7 +6,7 @@ class OrdersController < ApplicationController
   def new
     @place = Place.find(params[:place_id])
     @order = Order.create(place: @place)
-    @order.set_place= @place
+    @order.set_place = @place
     @order.save
     redirect_to edit_order_path(@order.id)
   end
@@ -54,8 +54,17 @@ class OrdersController < ApplicationController
         else
           variety_name = params[:input_order][:variety][variety_id.to_s]
         end
-        if quantity.to_i > 0 && variety_name.present?
-          @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, variety_name: variety_name, quantity: quantity.to_i)
+        detail = @order.order_details.find_by(person: person_name, variety_name: variety_name)
+        if detail
+          if quantity.to_i == 0
+            detail.destroy
+          else
+            detail.quantity = quantity.to_i
+          end
+        else
+          if quantity.to_i != 0
+            @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, quantity: quantity.to_i, variety_name: variety_name)
+          end
         end
       end
     end
