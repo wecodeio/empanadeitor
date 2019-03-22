@@ -3,6 +3,10 @@ class Order < ApplicationRecord
   has_many :order_details
   belongs_to :place, optional: true
 
+  after_create do
+    self.slug = Time.now.to_i.to_s(36).upcase
+  end
+
   def set_place= place
     self.place_name = place.name
     self.place_address = place.address
