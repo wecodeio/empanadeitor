@@ -1,8 +1,9 @@
 class Order < ApplicationRecord
 
   has_many :order_details
+  belongs_to :place, optional: true
 
-  def place= place
+  def set_place= place
     self.place_name = place.name
     self.place_address = place.address
     self.place_phone = place.phone

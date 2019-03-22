@@ -14,7 +14,7 @@
         </tr>
         </thead>
         <tbody>
-        <% @place.varieties.each do |variety| %>
+        <% @order.place.varieties.each do |variety| %>
           <tr>
             <td><%= variety.name %></td>
             <% 8.times do |x| %>

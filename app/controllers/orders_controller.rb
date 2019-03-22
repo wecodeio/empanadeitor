@@ -4,16 +4,26 @@ class OrdersController < ApplicationController
   end
 
   def new
-    @order = Order.new
     @place = Place.find(params[:place_id])
-    @order.place= @place
+    @order = Order.new(place: @place)
+    @order.set_place= @place
     @order.save
+    redirect_to edit_order_path(@order.id)
+  end
+
+  def edit
+    @order = Order.find_by(id: params[:id])
   end
 
   def new_custom_place
     @order = Order.new
     @order.place_name = params[:custom_place][:name]
     @order.save
+    redirect_to edit_custom_place_order_path(@order.id)
+  end
+
+  def edit_custom_place
+    @order = Order.find_by(id: params[:id])
   end
 
   def create
