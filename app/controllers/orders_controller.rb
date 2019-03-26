@@ -27,8 +27,13 @@ class OrdersController < ApplicationController
   end
 
   def create
-    fill_order
-    redirect_to confirm_order_path(@order.id)
+      fill_order(params[:order_id])
+      if params[:commit]=="Guardar"
+      elsif params[:commit]=="Guardar_custom"
+        redirect_to edit_custom_place_order_path(@order.id)
+      else
+        redirect_to confirm_order_path(@order)
+      end
   end
 
   def confirm
@@ -42,8 +47,8 @@ class OrdersController < ApplicationController
 
   private
 
-  def fill_order
-    @order = Order.find(params[:order_id])
+  def fill_order(order_id)
+    @order = Order.find(order_id)
     params[:input_order].permit!
     params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
       person_name = params[:input_order]['name'][person_id].presence || 'Others'
