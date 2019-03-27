@@ -9,8 +9,12 @@
         <th scope="col" colspan=8 id="nombres-integrantes">Nombres de los integrantes del pedido</th>
         <tr>
           <th scope="col">Variedad</th>
-          <% 8.times do |x| %>
-            <th scope="col"><%= f.text_field "name[#{x}]", class: 'form-control' %></th>
+          <% participants= @order.list_of_participants %>
+          <% (participants.length).times do |x| %>
+            <th scope="col"><%= f.text_field "name[#{x}]", value: participants[x], class: 'form-control' %></th>
+          <% end %>
+          <% (8-participants.length).times do |x| %>
+            <th scope="col"><%= f.text_field "name[#{x+ participants.length}]",class: 'form-control' %></th>
           <% end %>
         </tr>
         </thead>
@@ -18,9 +22,12 @@
         <% @order.place.varieties.each do |variety| %>
           <tr>
             <td><%= variety.name %></td>
-            <% 8.times do |x| %>
-              <td><%= f.number_field "q[#{x}][#{variety.id}]", min: 0, value: 0 ,class: 'form-control' %></td>
+            <% participants.length.times do |x| %>
+              <td><%= f.number_field "q[#{x}][#{variety.id}]", min: 0, value: @order.search_quantity(participants[x], variety.name) ,class: 'form-control' %></td>
             <% end %>
+            <% (8-participants.length).times do |x| %>
+              <td><%= f.number_field "q[#{x+ participants.length}][#{variety.id}]", min: 0, value: 0 ,class: 'form-control' %></td>
+          <% end %>
           </tr>
         <% end %>
         </tbody>

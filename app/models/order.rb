@@ -65,4 +65,17 @@ class Order < ApplicationRecord
     varieties_to_buy.uniq
   end
 
+  def quantity_participants
+    list_of_participants.length
+  end
+
+  def search_quantity(person_name, variety_name)
+    detail = self.order_details.find_by(person: person_name, variety_name: variety_name)
+    if detail
+      quantity=detail.quantity
+    else
+      quantity=0
+    end
+  end
+
 end

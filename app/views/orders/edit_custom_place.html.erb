@@ -2,30 +2,46 @@
 <h3>Invitá a tus compañeros usando este código: <%= @order.slug %></h3>
 <div class="row">
   <div class="col">
-    <%= form_for :input_order, url: orders_path(place_id: params[:place_id], order_id: @order.id) do |f| %>
+    <%= form_for :input_order, url: create_custom_place_order_path(place_id: params[:place_id], order_id: @order.id) do |f| %>
       <table class="table table-striped">
         <thead>
         <th></th>
         <th scope="col" colspan = 8 id="nombres-integrantes">Nombres de los integrantes del pedido</th>
         <tr>
           <th scope="col">Variedad</th>
-          <% 8.times do |x| %>
-            <th scope="col"><%= f.text_field "name[#{x}]", class: 'form-control' %></th>
+          <% participants= @order.list_of_participants %>
+          <% (participants.length).times do |x| %>
+            <th scope="col"><%= f.text_field "name[#{x}]", value: participants[x], class: 'form-control' %></th>
+          <% end %>
+          <% (8-participants.length).times do |x| %>
+            <th scope="col"><%= f.text_field "name[#{x+ participants.length}]",class: 'form-control' %></th>
           <% end %>
         </tr>
         </thead>
         <tbody>
-        <% 5.times do |v| %>
+        <% varieties = @order.varieties_to_buy %>
+        <% (varieties.length).times do |v| %>
           <tr>
-            <td><%= f.text_field "variety[#{v}]" %></td>
+            <td><%= f.text_field "variety[#{v}]", value: varieties[v] %></td>
+            <% participants.length.times do |x| %>
+              <td><%= f.number_field "q[#{x}][#{v}]", min: 0, value: @order.search_quantity(participants[x], varieties[v]) ,class: 'form-control' %></td>
+            <% end %>
+            <% (8-participants.length).times do |x| %>
+              <td><%= f.number_field "q[#{x+ participants.length}][#{v}]", min: 0, value: 0 ,class: 'form-control' %></td>
+            <% end %>
+          </tr>
+        <% end %>
+        <% (5-varieties.length).times do |v| %>
+          <tr>
+            <td><%= f.text_field "variety[#{v + varieties.length}]" %></td>
             <% 8.times do |x| %>
-              <td><%= f.number_field "q[#{x}][#{v}]", min: 0, value: 0 ,class: 'form-control' %></td>
+              <td><%= f.number_field "q[#{x}][#{v + varieties.length}]", min: 0, value: 0 ,class: 'form-control' %></td>
             <% end %>
           </tr>
         <% end %>
         </tbody>
       </table>
-       <%= f.submit :Guardar_custom ,class: "btn btn-primary"%>
+       <%= f.submit :Guardar ,class: "btn btn-primary"%>
       <%= f.submit :Pedir, class: "btn btn-primary"%>
     <% end %>
   </div>
