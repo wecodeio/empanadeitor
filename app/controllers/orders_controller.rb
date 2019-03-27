@@ -27,23 +27,23 @@ class OrdersController < ApplicationController
   end
 
   def create
-      fill_order(params[:order_id])
-      if params[:commit]=="Guardar"
-        redirect_to edit_order_path(@order.id)
-      else
-        redirect_to confirm_order_path(@order)
-      end
+    fill_order(params[:order_id])
+    if params[:commit] == "Guardar"
+      redirect_to edit_order_path(@order.id)
+    else
+      redirect_to confirm_order_path(@order)
+    end
   end
 
   def create_custom_place
     fill_order(params[:order_id])
-    if params[:commit]=="Guardar"
+    if params[:commit] == "Guardar"
       redirect_to edit_custom_place_order_path(@order.id)
     else
       redirect_to confirm_order_path(@order)
     end
   end
-  
+
   def confirm
     @order = Order.find(params[:id])
   end
@@ -59,7 +59,6 @@ class OrdersController < ApplicationController
     @order = Order.find(order_id)
     params[:input_order].permit!
     params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
-      #person_name = params[:input_order]['name'][person_id].presence || 'Others'
       person_name = params[:input_order]['name'][person_id]
       varieties_chosen.map do |variety_id, quantity|
         if @order.place_id
@@ -73,7 +72,7 @@ class OrdersController < ApplicationController
           if quantity.to_i == 0
             detail.destroy
           else
-            detail.quantity = quantity.to_i
+            detail.update(quantity: quantity.to_i)
           end
         else
           if quantity.to_i != 0
