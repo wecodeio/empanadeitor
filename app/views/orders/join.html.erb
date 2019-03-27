@@ -1,0 +1,44 @@
+<h1>Pedido para <%= @order.place_name %></h1>
+<div class="row">
+  <div class="col">
+    <%= form_for :input_order, url: create_join_order_path(order_id: @order.id) do |f| %>
+      <table class="table table-striped">
+        <thead>
+        <th></th>
+        <th scope="col" colspan=8 id="nombres-integrantes">Nombres de los integrantes del pedido</th>
+        <tr>
+          <th scope="col">Variedad</th>
+          <% participants = @order.list_of_participants %>
+          <% participants.each do |participant| %>
+            <% if participant != session[:current_user] %>
+              <th scope="col"><%= participant %> </th>
+            <% end %>
+          <% end %>
+          <% if !session[:current_user] %>
+            <th scope="col"><%= f.text_field "name", class: 'form-control' %></th>
+          <% else %>
+            <th scope="col"><%= session[:current_user] %></th>
+          <% end %>
+        </tr>
+        </thead>
+        <tbody>
+        <% @order.place.varieties.each do |variety| %>
+          <tr>
+            <td><%= variety.name %></td>
+            <% participants.each do |participant| %>
+              <% if participant != session[:current_user] %>
+                <td>
+                  <%= @order.search_quantity(participant, variety.name) %>
+                </td>
+              <% end %>
+            <% end %>
+            <td><%= f.number_field "q[#{variety.id}]", min: 0, value: @order.search_quantity(session[:current_user], variety.name), class: 'form-control' %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <%= f.submit :Guardar, class: "btn btn-primary" %>
+      <%= f.submit :Pedir, class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>

@@ -12,6 +12,8 @@ Rails.application.routes.draw do
     post :create_custom_place, on: :member
     get :confirm, on: :member
     post :finish, on: :member
+    get :join, on: :member
+    post :create_join, on: :member
   end
   root 'orders#index'
 end

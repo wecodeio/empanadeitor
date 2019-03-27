@@ -11,6 +11,22 @@ class OrdersController < ApplicationController
     redirect_to edit_order_path(@order.id)
   end
 
+  def join
+    @order = Order.find_by(slug: params[:id])
+  end
+
+  def create_join
+    if !session[:current_user]
+      session[:current_user] = params[:input_order][:name]
+    end
+    fill_personal_order_details
+    if params[:commit] == "Guardar"
+      redirect_to join_order_path(@order.slug)
+    else
+      redirect_to confirm_order_path(@order)
+    end
+  end
+
   def edit
     @order = Order.find_by(id: params[:id])
   end
@@ -78,6 +94,33 @@ class OrdersController < ApplicationController
           if quantity.to_i != 0
             @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, quantity: quantity.to_i, variety_name: variety_name)
           end
+        end
+      end
+    end
+    @order.save
+  end
+
+  def fill_personal_order_details
+    @order = Order.find(params[:order_id])
+    person_name = params[:input_order]['name'].presence || session[:current_user]
+    params[:input_order].permit!
+    params[:input_order]['q'].to_h.map do |variety_id, quantity|
+      if @order.place_id
+        variety = Variety.find_by(id: variety_id)
+        variety_name = variety.name
+      else
+        variety_name = params[:input_order][:variety][variety_id.to_s]
+      end
+      detail = @order.order_details.find_by(person: person_name, variety_name: variety_name)
+      if detail
+        if quantity.to_i == 0
+          detail.destroy
+        else
+          detail.update(quantity: quantity.to_i)
+        end
+      else
+        if quantity.to_i != 0
+          @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, quantity: quantity.to_i, variety_name: variety_name)
         end
       end
     end
