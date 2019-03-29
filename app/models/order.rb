@@ -83,4 +83,14 @@ class Order < ApplicationRecord
     self.price > 0
   end
 
+  def status
+    if was_ordered?
+      response = :finalizada
+    elsif !self.open
+      response = :cerrada
+    else
+      response = :en_curso
+    end
+    response
+  end
 end
