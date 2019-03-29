@@ -5,6 +5,7 @@ class Order < ApplicationRecord
 
   after_create do
     self.slug = Time.now.to_i.to_s(36).upcase
+    self.open = true
   end
 
   def set_place= place
