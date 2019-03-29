@@ -22,18 +22,37 @@
         </tr>
         </thead>
         <tbody>
-        <% @order.place.varieties.each do |variety| %>
+        <% if @order.place %>
+          <% @order.place.varieties.each do |variety| %>
+            <tr>
+              <td><%= variety.name %></td>
+              <% participants.each do |participant| %>
+                <% if participant != session[:current_user] %>
+                  <td>
+                    <%= @order.search_quantity(participant, variety.name) %>
+                  </td>
+                <% end %>
+              <% end %>
+              <td><%= f.number_field "q[#{variety.id}]", min: 0, value: @order.search_quantity(session[:current_user], variety.name), class: 'form-control' %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <% varieties = @order.varieties_to_buy %>
+          <% varieties.length.times do |v| %>
           <tr>
-            <td><%= variety.name %></td>
+            <td><%= varieties[v] %>
+            <%= f.text_field "variety[#{v}]", value: varieties[v], type: 'hidden' %>
+            </td>
             <% participants.each do |participant| %>
               <% if participant != session[:current_user] %>
                 <td>
-                  <%= @order.search_quantity(participant, variety.name) %>
+                  <%= @order.search_quantity(participant, varieties[v]) %>
                 </td>
               <% end %>
             <% end %>
-            <td><%= f.number_field "q[#{variety.id}]", min: 0, value: @order.search_quantity(session[:current_user], variety.name), class: 'form-control' %></td>
+            <td><%= f.number_field "q[#{v}]", min: 0, value: @order.search_quantity(session[:current_user], varieties[v]), class: 'form-control' %></td>
           </tr>
+          <% end %>
         <% end %>
         </tbody>
       </table>
