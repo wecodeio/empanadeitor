@@ -13,6 +13,9 @@ class OrdersController < ApplicationController
 
   def join
     @order = Order.find_by(slug: params[:id])
+    if !@order.open || @order.was_ordered?
+      redirect_to order_path(@order.id)
+    end
   end
 
   def create_join
