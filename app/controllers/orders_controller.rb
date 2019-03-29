@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   def index
     @places = Place.all
   end
-
+  
   def new
     @place = Place.find(params[:place_id])
     @order = Order.create(place: @place)
@@ -29,6 +29,10 @@ class OrdersController < ApplicationController
 
   def edit
     @order = Order.find_by(id: params[:id])
+    if @order.was_ordered?
+      flash[:info] = 'El pedido ya fue realizado'
+      redirect_to orders_path
+    end
   end
 
   def new_custom_place
@@ -47,6 +51,7 @@ class OrdersController < ApplicationController
     if params[:commit] == "Guardar"
       redirect_to edit_order_path(@order.id)
     else
+      @order.update(open: false)
       redirect_to confirm_order_path(@order)
     end
   end
@@ -62,11 +67,20 @@ class OrdersController < ApplicationController
 
   def confirm
     @order = Order.find(params[:id])
+    if @order.was_ordered?
+      flash[:info] = 'El pedido ya fue realizado'
+      redirect_to orders_path
+    end
   end
 
   def finish
     @order = Order.find(params[:id])
-    @order.price = params[:order_data]['price'].to_i
+    @order.update(price: params[:order_data]['price'].to_i)
+    redirect_to order_path(@order.id)
+  end
+
+  def show
+    @order = Order.find(params[:id])
   end
 
   private

@@ -58,7 +58,7 @@ class Order < ApplicationRecord
     participants.uniq
   end
 
-  def  varieties_to_buy 
+  def varieties_to_buy 
     varieties_to_buy =[]
     self.order_details.each do |detail|
       varieties_to_buy << detail.variety_name
@@ -77,6 +77,10 @@ class Order < ApplicationRecord
     else
       quantity=0
     end
+  end
+
+  def was_ordered?
+    self.price > 0
   end
 
 end
