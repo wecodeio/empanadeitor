@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
     if params[:commit] == "Guardar"
       redirect_to join_order_path(@order.slug)
     else
-      redirect_to confirm_order_path(@order)
+      redirect_to order_path(@order.id)
     end
   end
 
