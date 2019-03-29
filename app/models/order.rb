@@ -85,11 +85,11 @@ class Order < ApplicationRecord
 
   def status
     if was_ordered?
-      response = :finalizada
+      response = 'finalizada'
     elsif !self.open
-      response = :cerrada
+      response = 'cerrada'
     else
-      response = :en_curso
+      response = 'en curso'
     end
     response
   end
