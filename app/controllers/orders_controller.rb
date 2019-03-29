@@ -13,8 +13,12 @@ class OrdersController < ApplicationController
 
   def join
     @order = Order.find_by(slug: params[:id])
-    if !@order.open || @order.was_ordered?
-      redirect_to order_path(@order.id)
+    if !@order
+      redirect_to orders_path
+    else
+      if !@order.open || @order.was_ordered?
+        redirect_to order_path(@order.id)
+      end
     end
   end
 
@@ -32,9 +36,13 @@ class OrdersController < ApplicationController
 
   def edit
     @order = Order.find_by(id: params[:id])
-    if @order.was_ordered?
-      flash[:info] = 'El pedido ya fue realizado'
+    if !@order
       redirect_to orders_path
+    else
+      if @order.was_ordered?
+        flash[:info] = 'El pedido ya fue realizado'
+        redirect_to orders_path
+      end
     end
   end
 
@@ -83,7 +91,10 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.find(params[:id])
+    @order = Order.find_by(id: params[:id])
+    if !@order
+      redirect_to orders_path
+    end
   end
 
   private
