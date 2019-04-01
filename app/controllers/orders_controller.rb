@@ -23,7 +23,7 @@ class OrdersController < ApplicationController
   end
 
   def create_join
-    if !session[:current_user].presence
+    if !session[:current_user] && params[:input_order][:name].present?
       session[:current_user] = params[:input_order][:name]
     end
     fill_personal_order_details

@@ -56,12 +56,12 @@
           <% (5 - varieties.length).times do |v| %>
             <tr>
               <td><%= f.text_field "variety[#{v + varieties.length}]" %></td>
-              <% if session[:current_user] %>
-                <% (participants.length - 1).times do |x| %>
+              <% if !session[:current_user] %>
+                <% (participants.length).times do |x| %>
                   <td>0</td>
                 <% end %>
               <% else %>
-                <% (participants.length).times do |x| %>
+                <% (participants.length-1).times do |x| %>
                   <td>0</td>
                 <% end %>
               <% end %>
@@ -72,7 +72,7 @@
         </tbody>
       </table>
       <%= f.submit :Guardar, class: "btn btn-primary" %>
-      <%= f.submit :Pedir, class: "btn btn-primary" %>
+      <%= f.submit :Listo, class: "btn btn-primary" %>
     <% end %>
   </div>
 
