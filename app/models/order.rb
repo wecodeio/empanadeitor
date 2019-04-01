@@ -4,7 +4,8 @@ class Order < ApplicationRecord
   belongs_to :place, optional: true
 
   after_create do
-    self.slug = Time.now.to_i.to_s(36).upcase
+    hashids = Hashids.new(ENV['HASH_SALT'], 4, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+    self.slug = hashids.encode(self.id)
     self.open = true
   end
 
