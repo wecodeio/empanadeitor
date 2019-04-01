@@ -39,29 +39,35 @@
         <% else %>
           <% varieties = @order.varieties_to_buy %>
           <% varieties.length.times do |v| %>
-          <tr>
-            <td><%= varieties[v] %>
-            <%= f.text_field "variety[#{v}]", value: varieties[v], type: 'hidden' %>
-            </td>
-            <% participants.each do |participant| %>
-              <% if participant != session[:current_user] %>
-                <td>
-                  <%= @order.search_quantity(participant, varieties[v]) %>
-                </td>
+            <tr>
+              <td><%= varieties[v] %>
+                <%= f.text_field "variety[#{v}]", value: varieties[v], type: 'hidden' %>
+              </td>
+              <% participants.each do |participant| %>
+                <% if participant != session[:current_user] %>
+                  <td>
+                    <%= @order.search_quantity(participant, varieties[v]) %>
+                  </td>
+                <% end %>
               <% end %>
-            <% end %>
-            <td><%= f.number_field "q[#{v}]", min: 0, value: @order.search_quantity(session[:current_user], varieties[v]), class: 'form-control' %></td>
-          </tr>
+              <td><%= f.number_field "q[#{v}]", min: 0, value: @order.search_quantity(session[:current_user], varieties[v]), class: 'form-control' %></td>
+            </tr>
           <% end %>
-          <% (5-varieties.length).times do |v| %>
-          <tr>
-            <td><%= f.text_field "variety[#{v + varieties.length}]" %></td>
-            <% (participants.length-1).times do |x| %>
-              <td>0</td>
-            <% end %>
-            <td><%= f.number_field "q[#{v + varieties.length}]", min: 0, value: 0 ,class: 'form-control' %></td>
-          </tr>
-           <% end %>
+          <% (5 - varieties.length).times do |v| %>
+            <tr>
+              <td><%= f.text_field "variety[#{v + varieties.length}]" %></td>
+              <% if session[:current_user] %>
+                <% (participants.length - 1).times do |x| %>
+                  <td>0</td>
+                <% end %>
+              <% else %>
+                <% (participants.length).times do |x| %>
+                  <td>0</td>
+                <% end %>
+              <% end %>
+              <td><%= f.number_field "q[#{v + varieties.length}]", min: 0, value: 0, class: 'form-control' %></td>
+            </tr>
+          <% end %>
         <% end %>
         </tbody>
       </table>
