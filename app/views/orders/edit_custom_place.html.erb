@@ -1,5 +1,5 @@
 <h1>Pedido para <%= @order.place_name %></h1>
-<h3>Invitá a tus compañeros usando este código: <%= link_to @order.slug, join_order_path(@order.slug) %></h3>
+<h3>Invitá a tus compañeros usando este código: <%= link_to @order.slug, join_order_path(@order.slug), target:'_blank' %></h3>
 <div class="row">
   <div class="col">
     <%= form_for :input_order, url: create_custom_place_order_path(place_id: params[:place_id], order_id: @order.id) do |f| %>
