@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post :finish, on: :member
     get :join, on: :member
     post :create_join, on: :member
+    post :send_order_slug, on: :collection
   end
   root 'orders#index'
 end

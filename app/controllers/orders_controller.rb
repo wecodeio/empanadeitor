@@ -11,6 +11,10 @@ class OrdersController < ApplicationController
     redirect_to edit_order_path(@order.id)
   end
 
+  def send_order_slug
+    redirect_to join_order_path(params[:join_order][:slug])
+  end
+
   def join
     @order = Order.find_by(slug: params[:id])
     if !@order
