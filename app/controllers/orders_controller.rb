@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   def index
     @places = Place.all
   end
-  
+
   def new
     @place = Place.find(params[:place_id])
     @order = Order.create(place: @place)
@@ -64,7 +64,7 @@ class OrdersController < ApplicationController
       redirect_to order_path(@order.id)
     end
   end
-  
+
   def send_order_slug
     redirect_to join_order_path(params[:join_order][:slug])
   end
@@ -108,19 +108,10 @@ class OrdersController < ApplicationController
     person_name = params[:input_order]['name'].presence || session[:current_user]
     params[:input_order].permit!
     params[:input_order]['q'].to_h.map do |variety_id, quantity|
-      if @order.place_id
-        variety = Variety.find_by(id: variety_id)
-        variety_name = variety.name
-      else
-        variety_name = params[:input_order][:variety][variety_id.to_s]
-      end
-      detail = @order.order_details.find_by(person: person_name, variety_name: variety_name)
+      variety_name = get_variety_name(@order)
+      detail = search_detail(person_name, variety_name)
       if detail
-        if quantity.to_i == 0
-          detail.destroy
-        else
-          detail.update(quantity: quantity.to_i)
-        end
+        update_detail(detail, person_name, quantity)
       else
         if quantity.to_i != 0
           @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, quantity: quantity.to_i, variety_name: variety_name)
@@ -129,54 +120,51 @@ class OrdersController < ApplicationController
     end
     @order.save
   end
-end
 
-def fill_order(order_id)
-  @order = Order.find(order_id)
-  params[:input_order].permit!
-  params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
-    person_name = params[:input_order]['name'][person_id]
-    person_name_previous = params[:input_order]['previous_name'][person_id]
-    varieties_chosen.map do |variety_id, quantity|
-      if @order.place_id
-        variety = Variety.find_by(id: variety_id)
-        variety_name = variety.name
-      else
-        variety_name = params[:input_order][:variety][variety_id.to_s]
-      end
-      if !search_detail(person_name, variety_name, quantity)
-        if !search_detail_by_previous_person(person_name, person_name_previous, variety_name, quantity)
+  def fill_order(order_id)
+    @order = Order.find(order_id)
+    params[:input_order].permit!
+    params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
+      person_name = params[:input_order]['name'][person_id]
+      person_name_previous = params[:input_order]['previous_name'][person_id]
+      varieties_chosen.map do |variety_id, quantity|
+        variety_name = get_variety_name(@order)
+        detail = search_detail(person_name_previous, variety_name, quantity)
+        if detail
+          update_detail(detail, person_name, quantity)
+        else
           if quantity.to_i != 0
-             @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, quantity: quantity.to_i, variety_name: variety_name)
+            @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, quantity: quantity.to_i, variety_name: variety_name)
           end
-        end  
+        end
       end
     end
+    @order.save
   end
-  @order.save
-end
 
-def search_detail(person, variety_name, quantity)
-  detail = @order.order_details.find_by(person: person, variety_name: variety_name)
-  if detail
-    if quantity.to_i == 0
-      detail.destroy
-    else
-      detail.update(quantity: quantity.to_i)
+  def search_detail(person, variety_name)
+    @order.order_details.find_by(person: person, variety_name: variety_name)
+  end
+
+  def update_detail(detail, person, quantity)
+    if detail
+      if quantity.to_i == 0
+        detail.destroy
+      else
+        detail.update(person: person, quantity: quantity.to_i)
+      end
     end
+    detail
   end
-  detail
-end
 
-def search_detail_by_previous_person(person, person_previous, variety_name, quantity)
-  detail = @order.order_details.find_by(person: person_previous, variety_name: variety_name)
-  if detail
-    if quantity.to_i == 0
-      detail.destroy
+  def get_variety_name(order)
+    if order.place_id
+      variety = Variety.find_by(id: variety_id)
+      variety_name = variety.name
     else
-      detail.update(person: person, quantity: quantity.to_i)
+      variety_name = params[:input_order][:variety][variety_id.to_s]
     end
+    variety_name
   end
-  detail
-end
 
+end
