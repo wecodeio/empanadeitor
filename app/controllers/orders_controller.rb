@@ -28,15 +28,6 @@ class OrdersController < ApplicationController
     end
   end
 
-  def create_custom_place
-    fill_order(params[:order_id])
-    if params[:commit] == "Guardar"
-      redirect_to edit_custom_place_order_path(@order.id)
-    else
-      redirect_to confirm_order_path(@order)
-    end
-  end
-
   def edit
     @order = Order.find_by(id: params[:id])
     if @order.place_id

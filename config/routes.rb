@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   end
   resources :orders, except: [:delete] do
     get :new_custom_place, on: :collection, to: 'orders#new_custom_place'
-    #get :edit_custom_place, on: :member
-    post :create_custom_place, on: :member
     get :confirm, on: :member
     post :finish, on: :member
     get :join, on: :member

@@ -28,9 +28,5 @@
     <%= f.text_field 'price', required: true, class: 'form-control' %>
   </div>
   <%= f.button 'Finalizar', class: 'btn btn-primary' %>
-  <% if @order.place_id %>
-    <%= link_to 'Atras', edit_order_path(@order.id), class: 'btn btn-primary' %></td>
-  <% else %>
-    <%= link_to 'Atras', edit_custom_place_order_path(@order.id), class: 'btn btn-primary' %></td>
-  <% end %>
+  <%= link_to 'Atras', edit_order_path(@order.id), class: 'btn btn-primary' %>
 <% end %>
