@@ -12,9 +12,11 @@
           <% participants= @order.list_of_participants %>
           <% (participants.length).times do |x| %>
             <th scope="col"><%= f.text_field "name[#{x}]", value: participants[x], class: 'form-control' %></th>
+             <%= f.hidden_field  "previous_name[#{x}]", value: participants[x], class: 'form-control' %>
           <% end %>
           <% (8-participants.length).times do |x| %>
             <th scope="col"><%= f.text_field "name[#{x+ participants.length}]",class: 'form-control' %></th>
+             <%= f.hidden_field  "previous_name[#{x + participants.length}]", value: "", class: 'form-control' %>
           <% end %>
         </tr>
         </thead>
@@ -22,7 +24,7 @@
         <% varieties = @order.varieties_to_buy %>
         <% (varieties.length).times do |v| %>
           <tr>
-            <td><%= f.text_field "variety[#{v}]", value: varieties[v] %></td>
+            <td><%= f.text_field "variety[#{v}]", value: varieties[v] %></td> 
             <% participants.length.times do |x| %>
               <td><%= f.number_field "q[#{x}][#{v}]", min: 0, value: @order.search_quantity(participants[x], varieties[v]) ,class: 'form-control' %></td>
             <% end %>
