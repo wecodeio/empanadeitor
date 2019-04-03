@@ -119,7 +119,7 @@ class OrdersController < ApplicationController
     person_name = params[:input_order]['name'].presence || session[:current_user]
     params[:input_order].permit!
     params[:input_order]['q'].to_h.map do |variety_id, quantity|
-      variety_name = get_variety_name(@order)
+      variety_name = get_variety_name(@order, variety_id)
       detail = search_detail(person_name, variety_name)
       if detail
         update_detail(detail, person_name, quantity)
@@ -139,8 +139,8 @@ class OrdersController < ApplicationController
       person_name = params[:input_order]['name'][person_id]
       person_name_previous = params[:input_order]['previous_name'][person_id]
       varieties_chosen.map do |variety_id, quantity|
-        variety_name = get_variety_name(@order)
-        detail = search_detail(person_name_previous, variety_name, quantity)
+        variety_name = get_variety_name(@order, variety_id)
+        detail = search_detail(person_name_previous, variety_name)
         if detail
           update_detail(detail, person_name, quantity)
         else
@@ -168,7 +168,7 @@ class OrdersController < ApplicationController
     detail
   end
 
-  def get_variety_name(order)
+  def get_variety_name(order, variety_id)
     if order.place_id
       variety = Variety.find_by(id: variety_id)
       variety_name = variety.name
