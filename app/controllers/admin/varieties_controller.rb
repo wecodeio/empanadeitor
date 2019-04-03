@@ -18,7 +18,7 @@ class Admin::VarietiesController < Admin::BaseController
     @variety = Variety.new(variety_params)
     @variety.place = place
     if @variety.save
-      flash[:success] = I18n.t('activerecord.messages.create')
+      flash[:success] = I18n.t('activerecord.messages.create_variety') + " #{@variety.name}"
       redirect_to admin_place_path(place.id)
     else
       render 'new'
@@ -40,7 +40,7 @@ class Admin::VarietiesController < Admin::BaseController
       redirect_to admin_places_path
     end
     if @variety.update(variety_params)
-      flash[:success] = I18n.t('activerecord.messages.update')
+      flash[:success] = I18n.t('activerecord.messages.update_variety') + " #{@variety.name}"
       redirect_to admin_place_path(@variety.place_id)
     else
       render 'edit'
@@ -54,9 +54,9 @@ class Admin::VarietiesController < Admin::BaseController
       redirect_to admin_places_path
     end
     if @variety.destroy
-      flash[:success] = I18n.t('activerecord.messages.delete')
+      flash[:success] = I18n.t('activerecord.messages.delete_variety') + " #{@variety.name}"
     else
-      flash[:danger] = I18n.t('activerecord.errors.messages.delete')
+      flash[:danger] = I18n.t('activerecord.errors.messages.delete_variety') + " #{@variety.name}"
     end
     redirect_to admin_place_path(@variety.place_id)
   end

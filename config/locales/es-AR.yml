@@ -7,12 +7,17 @@ es-AR:
         restrict_dependent_destroy:
           has_one: No se puede eliminar el registro porque existe un %{record} dependiente
           has_many: No se puede eliminar el registro porque existen %{record} dependientes
-        delete: No se pudo eliminar el registro
+        delete_place: No se pudo eliminar el lugar  
+        delete_variety: No se pudo eliminar la variedad 
         url: La url ingresada no es valida
     messages:
-      create: Se pudo crear el registro
-      update: Se pudo actualizar el registro
-      delete: Se pudo eliminar el registro
+      create_place: Se pudo crear el lugar 
+      update_place: Se pudo actualizar el lugar 
+      delete_place: Se pudo borrar el lugar
+      create_variety: Se pudo crear la variedad 
+      update_variety: Se pudo actualizar la variedad 
+      delete_variety: Se pudo borrar la variedad 
+
   date:
     abbr_day_names:
       - dom

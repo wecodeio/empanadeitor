@@ -11,7 +11,7 @@ class Admin::PlacesController < Admin::BaseController
   def create
     @place = Place.new(place_params)
     if @place.save
-      flash[:success] = I18n.t('activerecord.messages.create')
+      flash[:success] = I18n.t('activerecord.messages.create_place') + " #{@place.name}"
       redirect_to admin_places_path
     else
       render 'new'
@@ -41,7 +41,7 @@ class Admin::PlacesController < Admin::BaseController
       redirect_to admin_places_path
     else
       if @place.update(place_params)
-        flash[:success] = I18n.t('activerecord.messages.update')
+        flash[:success] = I18n.t('activerecord.messages.update_place') + " #{@place.name}"
         redirect_to admin_places_path
       else
         render 'edit'
@@ -55,9 +55,9 @@ class Admin::PlacesController < Admin::BaseController
       flash[:danger] = I18n.t('activerecord.errors.messages.url')
     else
       if @place.destroy
-        flash[:success] = I18n.t('activerecord.messages.delete')
+        flash[:success] = I18n.t('activerecord.messages.delete_place') + " #{@place.name}"
       else 
-        flash[:danger] = I18n.t('activerecord.errors.messages.delete')
+        flash[:danger] = I18n.t('activerecord.errors.messages.delete_place') + " #{@place.name}"
       end
     redirect_to admin_places_path
     end
