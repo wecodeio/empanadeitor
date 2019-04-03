@@ -14,9 +14,13 @@
             <th scope="col">
               <%= f.text_field "name[#{x}]", value: participants[x], class: 'form-control' %>
             </th>
+              <%= f.hidden_field  "previous_name[#{x}]", value: participants[x], class: 'form-control' %>
           <% end %>
           <% (8-participants.length).times do |x| %>
-            <th scope="col"><%= f.text_field "name[#{x+ participants.length}]",class: 'form-control' %></th>
+            <th scope="col">
+              <%= f.text_field "name[#{x+ participants.length}]",class: 'form-control' %>
+            </th>
+            <%= f.hidden_field  "previous_name[#{x + participants.length}]", value: "", class: 'form-control' %>
           <% end %>
         </tr>
         </thead>
