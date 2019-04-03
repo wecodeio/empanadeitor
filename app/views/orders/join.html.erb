@@ -56,7 +56,7 @@
           <% (5 - varieties.length).times do |v| %>
             <tr>
               <td><%= f.text_field "variety[#{v + varieties.length}]" %></td>
-              <% if !session[:current_user] %>
+              <% if !session[:current_user].present? || !participants.include?(session[:current_user]) %>
                 <% (participants.length).times do |x| %>
                   <td>0</td>
                 <% end %>
