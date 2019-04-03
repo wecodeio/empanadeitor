@@ -15,7 +15,7 @@ class OrdersController < ApplicationController
     @order = Order.create
     @order.place_name = params[:custom_place][:name]
     @order.save
-    redirect_to edit_custom_place_order_path(@order.id)
+    redirect_to edit_order_path(@order.id)
   end
 
   def create
@@ -39,6 +39,16 @@ class OrdersController < ApplicationController
 
   def edit
     @order = Order.find_by(id: params[:id])
+    if @order.place_id
+      edit_existing_place(@order)
+    else
+      edit_custom_place(@order)
+    end
+  end
+
+  def edit_existing_place(order)
+    render 'edit'
+    @order = order
     if !@order
       redirect_to orders_path
     else
@@ -49,8 +59,9 @@ class OrdersController < ApplicationController
     end
   end
 
-  def edit_custom_place
-    @order = Order.find_by(id: params[:id])
+  def edit_custom_place(order)
+    render 'edit_custom_place'
+    @order = order
   end
 
   def create_join
