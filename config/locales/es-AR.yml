@@ -18,6 +18,12 @@ es-AR:
       update_variety: Se pudo actualizar la variedad 
       delete_variety: Se pudo borrar la variedad 
 
+    models:
+      place:
+        name: "nombre"
+        phone: "telefono"
+        address: "direccion"
+        
   date:
     abbr_day_names:
       - dom
@@ -141,6 +147,7 @@ es-AR:
       present: debe estar en blanco
       required: debe existir
       taken: ya ha sido tomado
+      or: no puede estar en blanco junto con
       too_long:
         one: es demasiado largo (máximo 1 caracter)
         other: es demasiado largo (máximo %{count} caracteres)

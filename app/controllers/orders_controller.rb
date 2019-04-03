@@ -3,41 +3,43 @@ class OrdersController < ApplicationController
     @places = Place.all
   end
 
-  def new_order
-    @place = Place.find(params[:id])
-    session[:place] = @place
+  def new
+    @order = Order.new
+    @place = Place.find(params[:place_id])
+    @order.place= @place
   end
 
   def create
-    params[:order].permit!
-    session[:input_user] = params[:order].to_h
     @order = fill_order
+    place = Place.find(params[:place_id])
+    @order.place= place
+    @order.save
+    redirect_to order_path(@order.id)
+  end
+
+  def show
+    @order = Order.find(params[:id])
   end
 
   def finish
-    @order = fill_order
-    @order.price = params[:price]['price'].to_i
+    @order = Order.find(params[:id])
+    @order.price = params[:order_data]['price'].to_i
   end
 
   private
 
   def fill_order
     order = Order.new
-    session[:input_user]['q'].map do |person_id, varieties_chosen|
-      person_name = session[:input_user]['name'][person_id]
+    params[:input_order].permit!
+    params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
+      person_name = params[:input_order]['name'][person_id].presence || 'Others'
       varieties_chosen.map do |variety_id, quantity|
-        variety_name = (Variety.find(variety_id)).name
-        if quantity.to_i > 0 
-          unless person_name.empty?
-            order_detail = OrderDetail.new(person_name, variety_name, quantity.to_i)
-          else
-            order_detail = OrderDetail.new('Others', variety_name, quantity.to_i)
-          end  
-            order.add_order_detail(order_detail)
+        variety = Variety.find(variety_id)
+        if quantity.to_i > 0
+            order.order_details << OrderDetail.new(person: person_name, order_id: order.id, variety_name: variety.name, quantity: quantity.to_i)
         end
       end
     end
     order
   end
-
 end
