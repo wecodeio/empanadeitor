@@ -30,24 +30,26 @@ class OrdersController < ApplicationController
 
   def edit
     @order = Order.find_by(id: params[:id])
-    if @order.place_id
-      edit_existing_place(@order)
-    else
-      edit_custom_place(@order)
-    end
-  end
-
-  def edit_existing_place(order)
-    render 'edit'
-    @order = order
     if !@order
       redirect_to orders_path
     else
       if @order.was_ordered?
         flash[:info] = 'El pedido ya fue realizado'
         redirect_to orders_path
+      else
+        @order.update(open: true)
+        if @order.place_id
+          edit_existing_place(@order)
+        else
+          edit_custom_place(@order)
+        end
       end
     end
+  end
+
+  def edit_existing_place(order)
+    render 'edit'
+    @order = order
   end
 
   def edit_custom_place(order)
