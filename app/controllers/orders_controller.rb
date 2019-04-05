@@ -54,14 +54,15 @@ class OrdersController < ApplicationController
   end
 
   def create_join
+    if !session[:orders_joined]
+      session[:orders_joined] = []
+    end
     if !session[:current_user] && params[:input_order][:name].present?
       session[:current_user] = params[:input_order][:name]
     end
-    fill_personal_order_details
+    fill_personal_order_details(params[:input_order][:slug])
     if params[:commit] == "Guardar"
-      redirect_to join_order_path(@order.slug)
-    else
-      redirect_to order_path(@order.id)
+      redirect_to order_path(@order.slug)
     end
   end
 
@@ -69,15 +70,9 @@ class OrdersController < ApplicationController
     redirect_to join_order_path(params[:join_order][:slug])
   end
 
-  def join
-    @order = Order.find_by(slug: params[:id])
-    if !@order
-      redirect_to orders_path
-    else
-      if !@order.open || @order.was_ordered?
-        redirect_to order_path(@order.id)
-      end
-    end
+  def join(order)
+    render 'join'
+    @order = order
   end
 
   def confirm(order)
@@ -103,6 +98,9 @@ class OrdersController < ApplicationController
   end
 
   def show
+    if !session[:orders_created]
+      session[:orders_created] = []
+    end
     @order = Order.find_by(slug: params[:id])
     if !@order
       redirect_to orders_path
@@ -113,7 +111,9 @@ class OrdersController < ApplicationController
       elsif !@order.open && !@order.was_ordered? && session[:orders_created].include?(params[:id])
         confirm(@order)
       elsif @order.was_ordered?
-        render 'finish'
+        view_summary
+      elsif @order.open && !session[:orders_created].include?(params[:id])
+        join(@order)
       end
     end
 
@@ -121,8 +121,8 @@ class OrdersController < ApplicationController
 
   private
 
-  def fill_personal_order_details
-    @order = Order.find(params[:order_id])
+  def fill_personal_order_details(slug)
+    @order = Order.find_by(slug: slug)
     person_name = params[:input_order]['name'].presence || session[:current_user]
     params[:input_order].permit!
     params[:input_order]['q'].to_h.map do |variety_id, quantity|
