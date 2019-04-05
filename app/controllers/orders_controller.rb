@@ -8,43 +8,39 @@ class OrdersController < ApplicationController
     @order = Order.create(place: @place)
     @order.set_place = @place
     @order.save
-    redirect_to edit_order_path(@order.id)
+    if !session[:orders_created]
+      session[:orders_created] = []
+    end
+    session[:orders_created] << @order.slug
+    redirect_to order_path(@order.slug)
   end
 
   def new_custom_place
     @order = Order.create
     @order.place_name = params[:custom_place][:name]
     @order.save
-    redirect_to edit_order_path(@order.id)
+    if !session[:orders_created]
+      session[:orders_created] = []
+    end
+    session[:orders_created] << @order.slug
+    redirect_to order_path(@order.slug)
   end
 
   def create
-    fill_order(params[:order_id])
-    if params[:commit] == "Guardar"
-      redirect_to edit_order_path(@order.id)
-    else
+    fill_order(params[:input_order][:slug])
+    if params[:commit] == "Pedir"
       @order.update(open: false)
-      redirect_to confirm_order_path(@order)
     end
+    redirect_to order_path(@order.slug)
   end
 
-  def edit
-    @order = Order.find_by(id: params[:id])
-    if !@order
-      redirect_to orders_path
+  def edit(order)
+    if order.place_id
+      edit_existing_place(order)
     else
-      if @order.was_ordered?
-        flash[:info] = 'El pedido ya fue realizado'
-        redirect_to orders_path
-      else
-        @order.update(open: true)
-        if @order.place_id
-          edit_existing_place(@order)
-        else
-          edit_custom_place(@order)
-        end
-      end
+      edit_custom_place(order)
     end
+
   end
 
   def edit_existing_place(order)
@@ -84,25 +80,43 @@ class OrdersController < ApplicationController
     end
   end
 
-  def confirm
-    @order = Order.find(params[:id])
-    if @order.was_ordered?
-      flash[:info] = 'El pedido ya fue realizado'
-      redirect_to orders_path
-    end
+  def confirm(order)
+    render 'confirm'
   end
 
   def finish
-    @order = Order.find(params[:id])
-    @order.update(price: params[:order_data]['price'].to_i)
-    redirect_to order_path(@order.id)
+    @order = Order.find_by(slug: params[:id])
+    if params[:commit] == "Finalizar"
+      @order.update(price: params[:order_data]['price'].to_i)
+    else
+      reopen(@order)
+    end
+    redirect_to order_path(@order.slug)
+  end
+
+  def view_summary
+    render 'finish'
+  end
+
+  def reopen(order)
+    order.update(open: true)
   end
 
   def show
-    @order = Order.find_by(id: params[:id])
+    @order = Order.find_by(slug: params[:id])
     if !@order
       redirect_to orders_path
+      #mensaje flash
+    else
+      if @order.open && session[:orders_created].include?(params[:id])
+        edit(@order)
+      elsif !@order.open && !@order.was_ordered? && session[:orders_created].include?(params[:id])
+        confirm(@order)
+      elsif @order.was_ordered?
+        render 'finish'
+      end
     end
+
   end
 
   private
@@ -125,8 +139,8 @@ class OrdersController < ApplicationController
     @order.save
   end
 
-  def fill_order(order_id)
-    @order = Order.find(order_id)
+  def fill_order(slug)
+    @order = Order.find_by(slug: slug)
     params[:input_order].permit!
     params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
       person_name = params[:input_order]['name'][person_id]
