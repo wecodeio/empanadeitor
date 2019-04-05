@@ -67,7 +67,7 @@ class OrdersController < ApplicationController
   end
 
   def send_order_slug
-    redirect_to join_order_path(params[:join_order][:slug])
+    redirect_to order_path(params[:join_order][:slug])
   end
 
   def join(order)
