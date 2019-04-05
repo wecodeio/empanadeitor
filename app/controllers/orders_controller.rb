@@ -8,9 +8,7 @@ class OrdersController < ApplicationController
     @order = Order.create(place: @place)
     @order.set_place = @place
     @order.save
-    if !session[:orders_created]
-      session[:orders_created] = []
-    end
+    session[:orders_created] = session[:orders_created].presence || []
     session[:orders_created] << @order.slug
     redirect_to order_path(@order.slug)
   end
@@ -19,9 +17,7 @@ class OrdersController < ApplicationController
     @order = Order.create
     @order.place_name = params[:custom_place][:name]
     @order.save
-    if !session[:orders_created]
-      session[:orders_created] = []
-    end
+    session[:orders_created] = session[:orders_created].presence || []
     session[:orders_created] << @order.slug
     redirect_to order_path(@order.slug)
   end
@@ -54,9 +50,6 @@ class OrdersController < ApplicationController
   end
 
   def create_join
-    if !session[:orders_joined]
-      session[:orders_joined] = []
-    end
     if !session[:current_user] && params[:input_order][:name].present?
       session[:current_user] = params[:input_order][:name]
     end
@@ -98,9 +91,7 @@ class OrdersController < ApplicationController
   end
 
   def show
-    if !session[:orders_created]
-      session[:orders_created] = []
-    end
+    session[:orders_created] = session[:orders_created].presence || []
     @order = Order.find_by(slug: params[:id])
     if !@order
       redirect_to orders_path
