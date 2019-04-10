@@ -40,13 +40,13 @@ class OrdersController < ApplicationController
   end
 
   def edit_existing_place(order)
-    render 'edit'
     @order = order
+    render 'edit'
   end
 
   def edit_custom_place(order)
-    render 'edit_custom_place'
     @order = order
+    render 'edit_custom_place'
   end
 
   def create_join
@@ -64,8 +64,8 @@ class OrdersController < ApplicationController
   end
 
   def join(order)
-    render 'join'
     @order = order
+    render 'join'
   end
 
   def confirm(order)
