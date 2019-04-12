@@ -1,9 +1,9 @@
 <div class="row justify-content-center">
   <div class="col col-8">
-    <h1>Editar lugar de comida</h1>
+    <h1><%= I18n.t('tittle.edit_place') %></h1>
     <%= form_for([:admin, @place]) do |f| %>
       <%= render partial: 'form', locals: {f: f} %>
-      <%= f.submit "Actualizar", class: "btn btn-primary" %>
+      <%= f.submit I18n.t('button.update'), class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>

@@ -4,7 +4,9 @@ module ApplicationHelper
         if f.object.errors.any?
             s = '<div id="error_explanation" class="alert alert-danger">'
             s += '<button type="button" class="close" data-dismiss="alert">&times;</button>'
-            s += '<h4>Errors have been found</h4><ul>'
+            s += '<h4>'
+            s += I18n.t('activerecord.errors.messages.error_place') 
+            s += '</h4><ul>'
             f.object.errors.full_messages.each do |msg|
                 s += "<li>#{msg}</li>"
             end

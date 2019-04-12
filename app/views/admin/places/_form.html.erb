@@ -1,13 +1,13 @@
 <%= show_errors_for_form(f) %> 
 <div class="form-group">
-  <%= f.label :name, 'Nombre' %>
+  <%= f.label :name, I18n.t('activerecord.models.place.name') %>
   <%= f.text_field :name, required: true, class: 'form-control' %>
 </div>
 <div class="form-group">
-  <%= f.label :phone, 'Teléfono' %>
+  <%= f.label :phone, I18n.t('activerecord.models.place.phone') %>
   <%= f.text_field :phone, class: 'form-control' %>
 </div>
 <div class="form-group">
-  <%= f.label :address, 'Dirección' %>
+  <%= f.label :address, I18n.t('activerecord.models.place.address')%>
   <%= f.text_field :address, class: 'form-control' %>
 </div>
