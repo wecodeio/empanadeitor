@@ -74,3 +74,5 @@ gem 'bullet', group: 'development'
 gem 'rack-mini-profiler'
 
 gem 'uniform_notifier'
+
+gem 'hashids'

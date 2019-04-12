@@ -6,8 +6,11 @@ Rails.application.routes.draw do
     end
     root 'places#index'
   end
-  resources :orders do
+  resources :orders, except: [:delete] do
+    get :new_custom_place, on: :collection, to: 'orders#new_custom_place'
     post :finish, on: :member
+    post :create_join, on: :member
+    post :send_order_slug, on: :collection
   end
   root 'orders#index'
 end

@@ -4,7 +4,9 @@
     <h3>Datos del comercio</h3>
     <ul>
       <li><%= @order.place_name %></li>
-      <li>Teléfono: <%= @order.place_phone %></li>
+      <% if @order.place_phone %>
+        <li>Teléfono: <%= @order.place_phone %></li>
+      <% end %>
     </ul>
   </div>
 </div>
@@ -23,7 +25,8 @@
 <%= form_for :order_data, url: finish_order_path do |f| %>
   <div class="form-group">
     <%= f.label 'Precio' %>
-    <%= f.text_field 'price', required: true, class: 'form-control' %>
+    <%= f.text_field 'price', class: 'form-control' %>
   </div>
-  <%= f.button 'Finalizar', class: 'btn btn-primary' %>
+  <%= f.submit 'Finalizar', class: 'btn btn-primary' %>
+  <%= f.submit 'Reabrir orden', class: 'btn btn-primary' %>
 <% end %>
