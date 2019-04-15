@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
     @order.save
     session[:orders_created] = session[:orders_created].presence || []
     session[:orders_created] << @order.slug
-    redirect_to order_path(@order.slug)
+    redirect_to order_path(slug: @order.slug)
   end
 
   def new_custom_place
@@ -73,7 +73,7 @@ class OrdersController < ApplicationController
   end
 
   def finish
-    @order = Order.find_by(slug: params[:id])
+    @order = Order.find_by(slug: params[:slug])
     if params[:commit] == "Finalizar"
       @order.update(price: params[:order_data]['price'].to_i)
     else
@@ -92,18 +92,18 @@ class OrdersController < ApplicationController
 
   def show
     session[:orders_created] = session[:orders_created].presence || []
-    @order = Order.find_by(slug: params[:id])
+    @order = Order.find_by(slug: params[:slug])
     if !@order
       redirect_to orders_path
       #mensaje flash
     else
-      if @order.open && session[:orders_created].include?(params[:id])
+      if @order.open && session[:orders_created].include?(params[:slug])
         edit(@order)
-      elsif !@order.open && !@order.was_ordered? && session[:orders_created].include?(params[:id])
+      elsif !@order.open && !@order.was_ordered? && session[:orders_created].include?(params[:slug])
         confirm(@order)
       elsif @order.was_ordered?
         view_summary
-      elsif @order.open && !session[:orders_created].include?(params[:id])
+      elsif @order.open && !session[:orders_created].include?(params[:slug])
         join(@order)
       end
     end
