@@ -97,13 +97,14 @@ class OrdersController < ApplicationController
       redirect_to orders_path
       #mensaje flash
     else
-      if @order.open && session[:orders_created].include?(params[:slug])
+      is_mine = session[:orders_created].include?(params[:slug])
+      if @order.open && is_mine
         edit(@order)
-      elsif !@order.open && !@order.was_ordered? && session[:orders_created].include?(params[:slug])
+      elsif !@order.open && !@order.was_ordered? && is_mine
         confirm(@order)
-      elsif @order.was_ordered?
+      elsif @order.was_ordered? || (!@order.open() && !is_mine)
         view_summary
-      elsif @order.open && !session[:orders_created].include?(params[:slug])
+      elsif @order.open && !is_mine
         join(@order)
       end
     end
