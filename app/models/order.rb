@@ -1,8 +1,15 @@
 class Order < ApplicationRecord
 
   has_many :order_details
+  belongs_to :place, optional: true
 
-  def place= place
+  after_create do
+    hashids = Hashids.new(ENV['HASH_SALT'], 4, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+    self.slug = hashids.encode(self.id)
+    self.open = true
+  end
+
+  def set_place= place
     self.place_name = place.name
     self.place_address = place.address
     self.place_phone = place.phone
@@ -52,7 +59,7 @@ class Order < ApplicationRecord
     participants.uniq
   end
 
-  def  varieties_to_buy 
+  def varieties_to_buy 
     varieties_to_buy =[]
     self.order_details.each do |detail|
       varieties_to_buy << detail.variety_name
@@ -60,4 +67,31 @@ class Order < ApplicationRecord
     varieties_to_buy.uniq
   end
 
+  def quantity_participants
+    list_of_participants.length
+  end
+
+  def search_quantity(person_name, variety_name)
+    detail = self.order_details.find_by(person: person_name, variety_name: variety_name)
+    if detail
+      quantity=detail.quantity
+    else
+      quantity=0
+    end
+  end
+
+  def was_ordered?
+    self.price > 0
+  end
+
+  def status
+    if was_ordered?
+      response = 'finalizada'
+    elsif !self.open
+      response = 'cerrada'
+    else
+      response = 'en curso'
+    end
+    response
+  end
 end
