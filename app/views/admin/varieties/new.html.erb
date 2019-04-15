@@ -1,13 +1,9 @@
-<div class="row">
-  <div class="col">
-    <h1>Añadir Variedad</h1>
-  </div>
-</div>
 <div class="row justify-content-center">
   <div class="col col-8">
+      <h1><%= I18n.t('tittle.add_variety') %></h1>
     <%= form_for([:admin_place, @variety]) do |f| %>
       <%= render partial: 'form', locals: {f: f} %>
-      <%= f.submit "Añadir", class: "btn btn-primary" %>
+      <%= f.submit I18n.t('button.add_variety'), class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>

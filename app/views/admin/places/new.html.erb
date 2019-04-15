@@ -3,7 +3,7 @@
     <h1><%= I18n.t('tittle.add_place') %></h1>
     <%= form_for([:admin, @place]) do |f| %>
       <%= render partial: 'form', locals: {f: f} %>
-      <%= f.submit I18n.t('button.add'), class: "btn btn-primary" %>
+      <%= f.submit I18n.t('button.add_place'), class: "btn btn-primary" %>
     <% end %>
   </div>
 </div>

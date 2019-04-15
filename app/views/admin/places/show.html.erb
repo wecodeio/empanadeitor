@@ -1,7 +1,7 @@
 <h1><%= @place.name %></h1>
 <p><i class="fas fa-phone"></i> <%= @place.phone %></p>
 <p><i class="fas fa-map-marker-alt"></i> <%= @place.address %></p>
-<h4><%= I18n.t('tittle.list_place') %></h4>
+<h4><%= I18n.t('tittle.list_variety') %></h4>
 
 <p>
   <%= link_to new_admin_place_variety_path(@place.id), class: 'btn btn-primary btn-sm' do %>

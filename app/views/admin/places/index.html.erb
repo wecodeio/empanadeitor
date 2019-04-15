@@ -31,18 +31,18 @@
           <td><%= place.phone %></td>
           <td><%= place.address %></td>
           <td>
-            <%= link_to admin_place_path(place), class: 'btn btn-secondary btn-sm', title: I18n.t('button.view') do %>
+            <%= link_to admin_place_path(place), class: 'btn btn-secondary btn-sm', title: I18n.t('button.view_place') do %>
               <i class="fas fa-eye"></i>
             <% end %>
             <%= link_to new_admin_place_variety_path(place.id), class: 'btn btn-secondary btn-sm',
                         title: I18n.t('button.add_variety') do %>
               <i class="fas fa-plus-square"></i>
             <% end %>
-            <%= link_to edit_admin_place_path(place.id), class: 'btn btn-secondary btn-sm', title: I18n.t('button.edit') do %>
+            <%= link_to edit_admin_place_path(place.id), class: 'btn btn-secondary btn-sm', title: I18n.t('button.edit_place') do %>
               <i class="fas fa-edit"></i>
             <% end %>
             <%= link_to admin_place_path(place), method: :delete,
-                        data: {confirm: I18n.t('message.confirm_delete_place')}, class: 'btn btn-danger btn-sm', title: I18n.t('button.delete') do %>
+                        data: {confirm: I18n.t('message.confirm_delete_place')}, class: 'btn btn-danger btn-sm', title: I18n.t('button.delete_place') do %>
               <i class="fas fa-trash-alt"></i>
             <% end %>
           </td>

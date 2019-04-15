@@ -24,17 +24,19 @@ es-AR:
         name: Nombre
         phone: Telefono
         address: Direccion
+      variety:
+        name: Nombre
 
   button:
-    update: Actualizar
+    update_place: Actualizar
     add_place: Añadir lugar
     add_variety: Añadir variedad
-    add: Añadir
-    view: Ver
-    edit: Editar
-    delete: Eliminar
+    view_place: Ver
+    edit_place: Editar
+    delete_place: Eliminar
     delete_variety: Eliminar variedad
     edit_variety: Editar variedad
+    update_Variety: Actualizar
   
   message:
     confirm_delete_place: ¿Estas seguro de eliminar el lugar?
@@ -44,8 +46,10 @@ es-AR:
   tittle:
     edit_place: Editar lugar de comida
     list_place: Listado de lugares
+    list_variety: Listado de variedades
     add_place: Añadir lugar de comida
-    varieties: Variedades
+    add_variety: Añadir variedad
+    edit_variety: Editar variedad
 
   table:
     name: Nombre
