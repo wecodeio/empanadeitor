@@ -30,22 +30,20 @@ class OrdersController < ApplicationController
     redirect_to order_path(@order.slug)
   end
 
-  def edit(order)
-    if order.place_id
-      edit_existing_place(order)
+  def edit
+    if @order.place_id
+      edit_existing_place
     else
-      edit_custom_place(order)
+      edit_custom_place
     end
 
   end
 
-  def edit_existing_place(order)
-    @order = order
+  def edit_existing_place
     render 'edit'
   end
 
-  def edit_custom_place(order)
-    @order = order
+  def edit_custom_place
     render 'edit_custom_place'
   end
 
@@ -63,12 +61,11 @@ class OrdersController < ApplicationController
     redirect_to order_path(params[:join_order][:slug])
   end
 
-  def join(order)
-    @order = order
+  def join
     render 'join'
   end
 
-  def confirm(order)
+  def confirm
     render 'confirm'
   end
 
@@ -99,13 +96,13 @@ class OrdersController < ApplicationController
     else
       is_mine = session[:orders_created].include?(params[:slug])
       if @order.open && is_mine
-        edit(@order)
+        edit
       elsif !@order.open && !@order.was_ordered? && is_mine
-        confirm(@order)
+        confirm
       elsif @order.was_ordered? || (!@order.open() && !is_mine)
         view_summary
       elsif @order.open && !is_mine
-        join(@order)
+        join
       end
     end
 
