@@ -48,7 +48,7 @@
     <div class="row">
       <tr>
         <%= form_for :custom_place, method: :get, class: 'inline-form', url: new_custom_place_orders_path do |f| %>
-          <td><%= f.text_field :name, placeholder: 'Lugar personalizado', class: 'form-control' %></td>
+          <td><%= f.text_field :name, required: true, placeholder: 'Lugar personalizado', class: 'form-control' %></td>
           <td>
             <button type="submit" class="btn btn-primary btn-sm" %>Crear orden</button>
           </td>
