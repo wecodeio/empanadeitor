@@ -74,6 +74,7 @@ class OrdersController < ApplicationController
     @order = Order.find_by(slug: params[:slug])
     if params[:commit] == "Finalizar"
       @order.update(price: params[:order_data]['price'].to_i)
+      session[:participants_added][params[:slug]] = nil
     else
       reopen(@order)
     end
