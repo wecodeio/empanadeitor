@@ -29,11 +29,14 @@
               <%= extern_participants[x] %>
             </th>
           <% end %>
-          <% (8 - participants.length - extern_participants.length).times do |x| %>
-            <th scope="col">
-              <%= f.text_field "name[#{x + participants.length}]", class: 'form-control' %>
-            </th>
-            <%= f.hidden_field "previous_name[#{x + participants.length}]", value: "", class: 'form-control' %>
+          <% blank_fields = 8 - participants.length - extern_participants.length %>
+          <% if blank_fields > 0 %>
+            <% blank_fields.times do |x| %>
+              <th scope="col">
+                <%= f.text_field "name[#{x + participants.length}]", class: 'form-control' %>
+              </th>
+              <%= f.hidden_field "previous_name[#{x + participants.length}]", value: "", class: 'form-control' %>
+            <% end %>
           <% end %>
         </tr>
         </thead>
@@ -47,8 +50,10 @@
             <% extern_participants.length.times do |x| %>
               <td id="column"><%= @order.search_quantity(extern_participants[x], variety.name) %></td>
             <% end %>
-            <% (8 - participants.length-extern_participants.length).times do |x| %>
-              <td id="column"><%= f.number_field "q[#{x + participants.length}][#{variety.id}]", min: 0, value: 0, class: 'form-control' %></td>
+            <% if blank_fields > 0 %>
+              <% blank_fields.times do |x| %>
+                <td id="column"><%= f.number_field "q[#{x + participants.length}][#{variety.id}]", min: 0, value: 0, class: 'form-control' %></td>
+              <% end %>
             <% end %>
           </tr>
         <% end %>

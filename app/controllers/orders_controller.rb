@@ -8,10 +8,7 @@ class OrdersController < ApplicationController
     @order = Order.create(place: @place)
     @order.set_place = @place
     @order.save
-    #session[:participants_added] = session[:participants_added] || Hash.new([])
-    if !session[:participants_added]
-      session[:participants_added] = Hash.new([])
-    end
+    session[:participants_added] = session[:participants_added] || Hash.new([])
     session[:orders_created] = session[:orders_created] || []
     session[:orders_created] << @order.slug
     redirect_to order_path(slug: @order.slug)
@@ -145,11 +142,15 @@ class OrdersController < ApplicationController
         if detail
           update_detail(detail, person_name, quantity)
           session[:participants_added][slug].delete(person_name_previous)
-          session[:participants_added][slug] << person_name
+          unless session[:participants_added][slug].include?(person_name)
+            session[:participants_added][slug] << person_name
+          end
         else
           if quantity.to_i != 0
             @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, quantity: quantity.to_i, variety_name: variety_name)
-            session[:participants_added][slug] << person_name
+            unless session[:participants_added][slug].include?(person_name)
+              session[:participants_added][slug] << person_name
+            end
           end
         end
       end
