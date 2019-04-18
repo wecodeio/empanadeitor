@@ -14,61 +14,55 @@
 </div>
 
 <h2><strong>¿Cómo empezar?</strong></h2>
-<h4>Puedes</h4>
-<div class="container unirse-pedido">
-  <h3>Unirte a un pedido iniciado por alguien</h3>
-  <div class="row">
-    <div class="col">
-      <%= form_for :join_order, class: 'inline-form', url: send_order_slug_orders_path do |f| %>
-        <div class="row align-items-center">
-          <div class="col-md-4">
-            <%= f.text_field :slug, class: 'form-control', placeholder: 'Código de invitación de 4 caracteres' %>
-          </div>
-          <div class="col">
-            <button type="submit" class="btn btn-primary btn-sm" %>Unirse</button>
-          </div>
-        </div>
-      <% end %>
+
+<div class="row">
+  <div class="col">
+    <h4>Puedes</h4>
+    <h3>Armar un pedido</h3>
+    <div class="alert alert-info" role="alert">
+      <i class="fas fa-info-circle"></i>
+      ¿No encuentras tu lugar en la lista?
+      Crea una orden llenando el lugar personalizado
     </div>
-  </div>
-</div>
+    <table class="table table-borderless table-striped">
+      <thead>
+      <th>Lugares para comenzar pedido</th>
+      </thead>
+      <tbody>
+      <div class="row">
+        <tr>
+          <%= form_for :custom_place, method: :get, class: 'inline-form', url: new_custom_place_orders_path do |f| %>
+            <td><%= f.text_field :name, required: true, placeholder: 'Lugar personalizado', class: 'form-control' %></td>
+            <td>
+              <button type="submit" class="btn btn-primary btn-sm" %>Crear orden</button>
+            </td>
+          <% end %>
 
-<br>
-
-<h4>O bien</h4>
-<div class="container armar-pedido">
-  <h3>Armar un pedido</h3>
-  <div class="alert alert-info" role="alert">
-    <i class="fas fa-info-circle"></i>
-    ¿No encuentras tu lugar en la lista?
-    Crea una orden llenando el lugar personalizado
-  </div>
-  <table class="table table-borderless table-striped">
-    <thead>
-    <th>Lugares para comenzar pedido</th>
-    </thead>
-    <tbody>
-    <div class="row">
-      <tr>
-        <%= form_for :custom_place, method: :get, class: 'inline-form', url: new_custom_place_orders_path do |f| %>
-          <td><%= f.text_field :name, required: true, placeholder: 'Lugar personalizado', class: 'form-control' %></td>
+        </tr>
+      </div>
+      <% @places.each do |place| %>
+        <tr>
+          <td><%= place.name %></td>
           <td>
-            <button type="submit" class="btn btn-primary btn-sm" %>Crear orden</button>
-          </td>
-        <% end %>
+            <%= link_to 'Crear orden', new_order_path(place_id: place.id), class: 'btn btn-primary btn-sm' %></td>
+        </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-3">
+    <h4>O bien</h4>
+    <h3>Unirte a un pedido iniciado por alguien</h3>
 
-      </tr>
-    </div>
-    <% @places.each do |place| %>
-      <tr>
-        <td><%= place.name %></td>
-        <td>
-          <%= link_to 'Crear orden', new_order_path(place_id: place.id), class: 'btn btn-primary btn-sm' %></td>
-      </tr>
+    <%= form_for :join_order, url: send_order_slug_orders_path do |f| %>
+      <%= f.text_field :slug, class: 'form-control', placeholder: 'Código de invitación' %>
+      <br>
+      <button type="submit" class="btn btn-primary btn-sm" %>Unirse</button>
     <% end %>
-    </tbody>
-  </table>
-</div>
 
+  </div>
+
+
+</div>
 
 
