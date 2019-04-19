@@ -1,4 +1,11 @@
-<h1>Estado de la orden: <%= @order.status %></h1>
+<% if @order.was_ordered? %>
+  <h1>¡Felicidades! El pedido concluyó con éxito</h1>
+<% elsif !@order.open %>
+  <h1>Este pedido está en proceso de ser ordenado</h1>
+  <br>
+  <h2>Si el creador lo permite, podrás volver a cargar preferencias. Por favor espera y recarga la página.</h2>
+  <br>
+<% end %>
 <div class="row">
   <div class="col">
     <h3>Datos del comercio</h3>
@@ -11,7 +18,7 @@
   </div>
 </div>
 <table class="table table-striped">
-  <%= render partial: 'summary'%>
+  <%= render partial: 'summary' %>
   <tfoot>
   <tr>
     <td><strong>Total de empanadas</strong></td>
@@ -23,7 +30,7 @@
   <tr>
     <td><strong>Total precio</strong></td>
     <td>$ <%= @order.price %></td>
-    <% @order.list_of_participants.each  do |person| %>
+    <% @order.list_of_participants.each do |person| %>
       <td>$ <%= @order.price_per_person[person] %></td>
     <% end %>
   </tr>
