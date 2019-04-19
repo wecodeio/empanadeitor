@@ -3,7 +3,7 @@
 <% elsif !@order.open %>
   <h1>Este pedido está en proceso de ser ordenado</h1>
   <br>
-  <h2>Si el creador lo permite, podrás volver a cargar preferencias. Por favor espera y recarga la página.</h2>
+  <h2>Si el organizador lo permite, podrás volver a cargar preferencias. Por favor espera y recarga la página.</h2>
   <br>
 <% end %>
 <div class="row">
@@ -29,7 +29,11 @@
   </tr>
   <tr>
     <td><strong>Total precio</strong></td>
-    <td>$ <%= @order.price %></td>
+    <% if @order.price != 0 %>
+      <td>$ <%= @order.price %></td>
+    <% else %>
+      <td>Pendiente</td>
+    <% end %>
     <% @order.list_of_participants.each do |person| %>
       <td>$ <%= @order.price_per_person[person] %></td>
     <% end %>
