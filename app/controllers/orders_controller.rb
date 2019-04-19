@@ -71,7 +71,7 @@ class OrdersController < ApplicationController
 
   def finish
     @order = Order.find_by(slug: params[:slug])
-    if params[:commit] == "Finalizar"
+    if params[:commit] == "Ya ordené el pedido"
       @order.update(price: params[:order_data]['price'].to_i)
     else
       reopen(@order)
