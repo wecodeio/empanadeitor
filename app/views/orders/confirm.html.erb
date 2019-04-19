@@ -22,11 +22,20 @@
   </tr>
   </tfoot>
 </table>
-<%= form_for :order_data, url: finish_order_path do |f| %>
-  <div class="form-group">
-    <%= f.label 'Precio' %>
-    <%= f.text_field 'price', class: 'form-control' %>
+<div class="row">
+  <div class="col-md-5">
+    <%= form_for :order_data, url: finish_order_path do |f| %>
+      <div class="form-group">
+        <%= f.label 'Precio' %>
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">$</span>
+          </div>
+          <%= f.text_field 'price', class: 'form-control' %>
+        </div>
+      </div>
+      <%= f.submit 'Finalizar', class: 'btn btn-primary' %>
+      <%= f.submit 'Reabrir orden', class: 'btn btn-primary' %>
+    <% end %>
   </div>
-  <%= f.submit 'Finalizar', class: 'btn btn-primary' %>
-  <%= f.submit 'Reabrir orden', class: 'btn btn-primary' %>
-<% end %>
+</div>
