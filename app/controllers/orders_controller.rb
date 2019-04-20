@@ -53,6 +53,7 @@ class OrdersController < ApplicationController
     end
     fill_personal_order_details(params[:input_order][:slug])
     if params[:commit] == "Guardar"
+      flash[:success] = 'Tus cambios fueron guardados, podes seguir editando'
       redirect_to order_path(@order.slug)
     end
   end
@@ -91,8 +92,8 @@ class OrdersController < ApplicationController
     session[:orders_created] = session[:orders_created] || []
     @order = Order.find_by(slug: params[:slug])
     if !@order
+      flash[:danger] = I18n.t('activerecord.errors.messages.url')
       redirect_to orders_path
-      #mensaje flash
     else
       is_mine = session[:orders_created].include?(params[:slug])
       if @order.open && is_mine
