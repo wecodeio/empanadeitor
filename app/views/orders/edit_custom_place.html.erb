@@ -62,7 +62,7 @@
           <tr>
             <td id="column"><%= f.text_field "variety[#{v + varieties.length}]" %></td>
               <% participants.length.times do |x| %>
-                <td id="column"><%= f.number_field "q[#{x}][#{v + varieties.length}]", min: 0, value: @order.search_quantity(participants[x], varieties[v]), class: 'form-control' %></td>
+                <td id="column"><%= f.number_field "q[#{x}][#{v + varieties.length}]", min: 0, value: 0, class: 'form-control' %></td>
               <% end %>
               <% extern_participants.length.times do |x| %>
                <td id="column">0</td>
