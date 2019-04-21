@@ -53,7 +53,7 @@ class OrdersController < ApplicationController
     end
     fill_personal_order_details(params[:input_order][:slug])
     if params[:commit] == "Guardar"
-      flash[:success] = 'Tus cambios fueron guardados, podes seguir editando'
+      flash[:success] = 'Tus cambios fueron guardados, puedes seguir editando'
       redirect_to order_path(@order.slug)
     end
   end
