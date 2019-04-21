@@ -60,7 +60,7 @@
         <% end %>
         <% (5-varieties.length).times do |v| %>
           <tr>
-            <td id="column"><%= f.text_field "variety[#{v + varieties.length}]" %></td>
+            <td id="column"><%= f.text_field "variety[#{v + varieties.length}]", placeholder: 'Ingrese una variedad' %></td>
               <% participants.length.times do |x| %>
                 <td id="column"><%= f.number_field "q[#{x}][#{v + varieties.length}]", min: 0, value: 0, class: 'form-control' %></td>
               <% end %>

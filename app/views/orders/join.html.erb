@@ -63,7 +63,7 @@
           <% end %>
           <% (5 - varieties.length).times do |v| %>
             <tr>
-              <td id="column"><%= f.text_field "variety[#{v + varieties.length}]" %></td>
+              <td id="column"><%= f.text_field "variety[#{v + varieties.length}]", placeholder: 'Ingrese una variedad' %></td>
               <td><%= f.number_field "q[#{v + varieties.length}]", min: 0, value: 0, class: 'form-control' %></td>
               <% if !session[:current_user].present? || !participants.include?(session[:current_user]) %>
                 <% (participants.length).times do |x| %>
