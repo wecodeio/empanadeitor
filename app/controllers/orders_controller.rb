@@ -52,8 +52,9 @@ class OrdersController < ApplicationController
       session[:current_user] = params[:input_order][:name]
     end
     fill_personal_order_details(params[:input_order][:slug])
-    if params[:commit] == "Guardar"
-      flash[:success] = 'Tus cambios fueron guardados, puedes seguir editando'
+    if params[:commit] == "Enviar Preferencias"
+      flash[:success] = 'Tus preferencias fueron enviadas al organizador. Sin embargo, puedes seguir editando mientras
+      el pedido siga en proceso, y volver a enviar.'
       redirect_to order_path(@order.slug)
     end
   end
