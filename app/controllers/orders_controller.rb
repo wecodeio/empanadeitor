@@ -18,6 +18,7 @@ class OrdersController < ApplicationController
     @order = Order.create
     @order.place_name = params[:custom_place][:name]
     @order.save
+    session[:participants_added] = session[:participants_added] || Hash.new([])
     session[:orders_created] = session[:orders_created] || []
     session[:orders_created] << @order.slug
     redirect_to order_path(@order.slug)
