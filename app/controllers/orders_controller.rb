@@ -8,6 +8,7 @@ class OrdersController < ApplicationController
     @order = Order.create(place: @place)
     @order.set_place = @place
     @order.save
+    session[:participants_added] = session[:participants_added] || Hash.new([])
     session[:orders_created] = session[:orders_created] || []
     session[:orders_created] << @order.slug
     redirect_to order_path(slug: @order.slug)
@@ -17,6 +18,7 @@ class OrdersController < ApplicationController
     @order = Order.create
     @order.place_name = params[:custom_place][:name]
     @order.save
+    session[:participants_added] = session[:participants_added] || Hash.new([])
     session[:orders_created] = session[:orders_created] || []
     session[:orders_created] << @order.slug
     redirect_to order_path(@order.slug)
@@ -75,6 +77,7 @@ class OrdersController < ApplicationController
     @order = Order.find_by(slug: params[:slug])
     if params[:commit] == "Ya ordené el pedido"
       @order.update(price: params[:order_data]['price'].to_i)
+      session[:participants_added][params[:slug]] = nil
     else
       reopen(@order)
     end
@@ -132,6 +135,7 @@ class OrdersController < ApplicationController
 
   def fill_order(slug)
     @order = Order.find_by(slug: slug)
+    session[:participants_added][slug] = session[:participants_added][slug] || []
     params[:input_order].permit!
     params[:input_order]['q'].to_h.map do |person_id, varieties_chosen|
       person_name = params[:input_order]['name'][person_id]
@@ -141,9 +145,16 @@ class OrdersController < ApplicationController
         detail = search_detail(person_name_previous, variety_name)
         if detail
           update_detail(detail, person_name, quantity)
+          session[:participants_added][slug].delete(person_name_previous)
+          unless session[:participants_added][slug].include?(person_name)
+            session[:participants_added][slug] << person_name
+          end
         else
           if quantity.to_i != 0
             @order.order_details << OrderDetail.new(person: person_name, order_id: @order.id, quantity: quantity.to_i, variety_name: variety_name)
+            unless session[:participants_added][slug].include?(person_name)
+              session[:participants_added][slug] << person_name
+            end
           end
         end
       end
