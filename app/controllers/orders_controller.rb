@@ -26,9 +26,13 @@ class OrdersController < ApplicationController
 
   def create
     fill_order(params[:input_order][:slug])
-    if params[:commit] == "Pedir"
+    if params[:commit] == "Pedir" and @order.quantity_participants>0 
       @order.update(open: false)
-    end
+    else
+      flash[:info] ='Esta orden no tiene preferencias cargadas. 
+                     Por favor asegurate de que tu o alguien de tu grupo envíe
+                     sus preferencias antes de continuar'
+    end 
     redirect_to order_path(@order.slug)
   end
 

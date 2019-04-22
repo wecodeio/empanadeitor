@@ -1,9 +1,4 @@
-<h1>Pedido para <%= @order.place_name %></h1>
-<h3>
-  Invita a tus compañeros: <%= @order.slug %>
-  <button title='Copiar' id = "linkOfer" class="btn btn-secondary btn-sm"><i class="far fa-copy"></i> Copiar link</button>
-</h3>
-<div id="alert_linkOfer"></div>
+<%= render partial: 'message' %>
 <div class="row">
   <div class="col">
     <%= form_for :input_order, url: orders_path do |f| %>
@@ -68,7 +63,7 @@
     bootstrap_alert = function () {
     }
     bootstrap_alert.warning = function (message) {
-        $('#alert_linkOfer').html('<div class="alert alert-success" role="alert">' + message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')
+      $('#alert_linkOfer').html('<div class="alert alert-success" role="alert">' + message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')
     }
 
     $('#linkOfer').on('click', function () {
