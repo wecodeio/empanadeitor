@@ -44,7 +44,9 @@
         <% varieties = @order.varieties_to_buy %>
         <% (varieties.length).times do |v| %>
           <tr>
-            <td id="column"><%= f.text_field "variety[#{v}]", value: varieties[v] %></td> 
+            <td id="column">
+              <%= varieties[v] %>
+            </td>
             <% participants.length.times do |x| %>
               <td id="column"><%= f.number_field "q[#{x}][#{v}]", min: 0, value: @order.search_quantity(participants[x], varieties[v]), class: 'form-control' %></td>
             <% end %>
