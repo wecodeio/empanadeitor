@@ -18,7 +18,7 @@
           <th scope="col">Variedad</th>
           <% participants = @order.list_of_participants %>
           <% if !session[:current_user].presence %>
-            <th scope="col"><%= f.text_field "name", placeholder:'Tu nombre', class: 'form-control' %></th>
+            <th scope="col"><%= f.text_field "name", placeholder: 'Tu nombre', class: 'form-control' %></th>
           <% else %>
             <th scope="col"><%= session[:current_user] %></th>
           <% end %>
@@ -63,7 +63,7 @@
           <% end %>
           <% (5 - varieties.length).times do |v| %>
             <tr>
-              <td id="column"><%= f.text_field "variety[#{v + varieties.length}]", placeholder: 'Ingrese una variedad' %></td>
+              <td id="column"><%= f.text_field "variety[#{v + varieties.length}]", class: 'form-control', placeholder: 'Variedad' %></td>
               <td><%= f.number_field "q[#{v + varieties.length}]", min: 0, value: 0, class: 'form-control' %></td>
               <% if !session[:current_user].present? || !participants.include?(session[:current_user]) %>
                 <% (participants.length).times do |x| %>
