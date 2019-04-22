@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
     else
       flash[:info] ='Esta orden no tiene preferencias cargadas. 
                      Por favor asegurate de que tu o alguien de tu grupo envíe
-                     sus preferencias antes de continuar'
+                     sus preferencias antes de continuar.'
     end 
     redirect_to order_path(@order.slug)
   end
