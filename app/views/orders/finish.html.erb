@@ -17,28 +17,28 @@
     </ul>
   </div>
 </div>
-<table class="table table-striped">
+<table class="table table-striped table-responsive">
   <%= render partial: 'summary' %>
   <tfoot>
   <tr>
-    <td><strong>Total de empanadas</strong></td>
-    <td><strong><%= @order.total_units %></strong></td>
+    <td id="column"><strong>Total de empanadas</strong></td>
+    <td id="column"><strong><%= @order.total_units %></strong></td>
     <% @order.list_of_participants.each do |person| %>
-      <td><%= @order.total_units_per_person[person] %></td>
+      <td id="column"><%= @order.total_units_per_person[person] %></td>
     <% end %>
   </tr>
   <tr>
-    <td><strong>Total precio</strong></td>
+    <td id="column"><strong>Total precio</strong></td>
     <% if @order.price != 0 %>
-      <td>$ <%= @order.price %></td>
+      <td id="column">$ <%= @order.price %></td>
     <% else %>
-      <td>Pendiente</td>
+      <td id="column">Pendiente</td>
     <% end %>
     <% @order.list_of_participants.each do |person| %>
       <% if @order.price_per_person[person] != 0 %>
-        <td>$ <%= @order.price_per_person[person] %></td>
+        <td id="column">$ <%= @order.price_per_person[person] %></td>
       <% else %>
-        <td>Pendiente</td>
+        <td id="column">Pendiente</td>
       <% end %>
     <% end %>
   </tr>
