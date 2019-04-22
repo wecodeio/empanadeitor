@@ -18,7 +18,7 @@
           <th scope="col">Variedad</th>
           <% participants = @order.list_of_participants %>
           <% if !session[:current_user].presence %>
-            <th scope="col"><%= f.text_field "name", class: 'form-control' %></th>
+            <th scope="col"><%= f.text_field "name", placeholder:'Tu nombre', class: 'form-control' %></th>
           <% else %>
             <th scope="col"><%= session[:current_user] %></th>
           <% end %>
