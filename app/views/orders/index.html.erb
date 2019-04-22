@@ -55,7 +55,7 @@
     <h3>Unirte a un pedido iniciado por alguien</h3>
 
     <%= form_for :join_order, url: send_order_slug_orders_path do |f| %>
-      <%= f.text_field :slug, class: 'form-control', placeholder: 'Código de invitación' %>
+      <%= f.text_field :slug, class: 'form-control', required: true, placeholder: 'Código de invitación' %>
       <br>
       <button type="submit" class="btn btn-primary btn-sm" %>Unirse</button>
     <% end %>

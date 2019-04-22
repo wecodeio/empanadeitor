@@ -1,4 +1,11 @@
-<h1>Estado de la orden: <%= @order.status %></h1>
+<% if @order.was_ordered? %>
+  <h1>¡Este pedido concluyó con éxito!</h1>
+<% elsif !@order.open %>
+  <h1>Este pedido está en proceso de ser ordenado</h1>
+  <br>
+  <p class="lead">Si el organizador lo permite, podrás volver a cargar preferencias. Por favor espera y recarga la página.</p>
+  <br>
+<% end %>
 <div class="row">
   <div class="col">
     <h3>Datos del comercio</h3>
@@ -10,21 +17,29 @@
     </ul>
   </div>
 </div>
-<table class="table table-striped">
-  <%= render partial: 'summary'%>
+<table class="table table-striped table-responsive">
+  <%= render partial: 'summary' %>
   <tfoot>
   <tr>
-    <td><strong>Total de empanadas</strong></td>
-    <td><strong><%= @order.total_units %></strong></td>
+    <td id="column"><strong>Total de empanadas</strong></td>
+    <td id="column"><strong><%= @order.total_units %></strong></td>
     <% @order.list_of_participants.each do |person| %>
-      <td><%= @order.total_units_per_person[person] %></td>
+      <td id="column"><%= @order.total_units_per_person[person] %></td>
     <% end %>
   </tr>
   <tr>
-    <td><strong>Total precio</strong></td>
-    <td>$ <%= @order.price %></td>
-    <% @order.list_of_participants.each  do |person| %>
-      <td>$ <%= @order.price_per_person[person] %></td>
+    <td id="column"><strong>Total precio</strong></td>
+    <% if @order.price != 0 %>
+      <td id="column">$ <%= @order.price %></td>
+    <% else %>
+      <td id="column">Pendiente</td>
+    <% end %>
+    <% @order.list_of_participants.each do |person| %>
+      <% if @order.price_per_person[person] != 0 %>
+        <td id="column">$ <%= @order.price_per_person[person] %></td>
+      <% else %>
+        <td id="column">Pendiente</td>
+      <% end %>
     <% end %>
   </tr>
   </tfoot>

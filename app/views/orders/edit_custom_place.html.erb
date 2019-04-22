@@ -1,23 +1,37 @@
-<h1>Pedido para <%= @order.place_name %></h1>
-<h3>Invitá a tus compañeros usando este código: <%= link_to @order.slug, order_path(@order.slug), target:'_blank' %></h3>
+<%= render partial: 'message' %>
 <div class="row">
   <div class="col">
     <%= form_for :input_order, url: orders_path do |f| %>
+      <%= f.submit :Pedir, class: "btn btn-primary" %>
+      <p></p>
       <%= f.hidden_field 'slug', value: @order.slug %>
-      <table class="table table-striped">
+      <table class="table table-striped table-responsive">
         <thead>
         <th></th>
-        <th scope="col" colspan = 8 id="nombres-integrantes">Nombres de los integrantes del pedido</th>
+        <th scope="col" colspan=8 id="nombres-integrantes">Nombres de los integrantes del pedido</th>
         <tr>
           <th scope="col">Variedad</th>
-          <% participants= @order.list_of_participants %>
-          <% (participants.length).times do |x| %>
-            <th scope="col"><%= f.text_field "name[#{x}]", value: participants[x], class: 'form-control' %></th>
-             <%= f.hidden_field  "previous_name[#{x}]", value: participants[x], class: 'form-control' %>
+          <% participants = session[:participants_added][@order.slug] || [] %>
+          <% extern_participants = @order.list_of_participants - participants %>
+          <% participants.length.times do |x| %>
+            <th scope="col">
+              <%= f.text_field "name[#{x}]", value: participants[x], class: 'form-control' %>
+            </th>
+            <%= f.hidden_field "previous_name[#{x}]", value: participants[x], class: 'form-control' %>
           <% end %>
-          <% (8-participants.length).times do |x| %>
-            <th scope="col"><%= f.text_field "name[#{x+ participants.length}]",class: 'form-control' %></th>
-             <%= f.hidden_field  "previous_name[#{x + participants.length}]", value: "", class: 'form-control' %>
+          <% (extern_participants.length).times do |x| %>
+            <th scope="col">
+              <%= extern_participants[x] %>
+            </th>
+          <% end %>
+          <% blank_fields = 8 - participants.length - extern_participants.length %>
+          <% if blank_fields > 0 %>
+            <% blank_fields.times do |x| %>
+              <th scope="col">
+                <%= f.text_field "name[#{x + participants.length}]", class: 'form-control' %>
+              </th>
+              <%= f.hidden_field "previous_name[#{x + participants.length}]", value: "", class: 'form-control' %>
+            <% end %>
           <% end %>
         </tr>
         </thead>
@@ -25,27 +39,60 @@
         <% varieties = @order.varieties_to_buy %>
         <% (varieties.length).times do |v| %>
           <tr>
-            <td><%= f.text_field "variety[#{v}]", value: varieties[v] %></td> 
+            <td id="column">
+              <%= varieties[v] %>
+              <%= f.text_field "variety[#{v}]", value: varieties[v], type: 'hidden' %>
+            </td>
             <% participants.length.times do |x| %>
-              <td><%= f.number_field "q[#{x}][#{v}]", min: 0, value: @order.search_quantity(participants[x], varieties[v]) ,class: 'form-control' %></td>
+              <td id="column"><%= f.number_field "q[#{x}][#{v}]", min: 0, value: @order.search_quantity(participants[x], varieties[v]), class: 'form-control' %></td>
             <% end %>
-            <% (8-participants.length).times do |x| %>
-              <td><%= f.number_field "q[#{x+ participants.length}][#{v}]", min: 0, value: 0 ,class: 'form-control' %></td>
+            <% extern_participants.length.times do |x| %>
+              <td id="column"><%= @order.search_quantity(extern_participants[x], varieties[v]) %></td>
+            <% end %>
+            <% if blank_fields > 0 %>
+              <% blank_fields.times do |x| %>
+                <td id="column"><%= f.number_field "q[#{x + participants.length}][#{v}]", min: 0, value: 0, class: 'form-control' %></td>
+              <% end %>
             <% end %>
           </tr>
         <% end %>
-        <% (5-varieties.length).times do |v| %>
+        <% (5 - varieties.length).times do |v| %>
           <tr>
-            <td><%= f.text_field "variety[#{v + varieties.length}]" %></td>
-            <% 8.times do |x| %>
-              <td><%= f.number_field "q[#{x}][#{v + varieties.length}]", min: 0, value: 0 ,class: 'form-control' %></td>
+            <td id="column"><%= f.text_field "variety[#{v + varieties.length}]", placeholder: 'Variedad', class: 'form-control' %></td>
+            <% participants.length.times do |x| %>
+              <td id="column"><%= f.number_field "q[#{x}][#{v + varieties.length}]", min: 0, value: 0, class: 'form-control' %></td>
+            <% end %>
+            <% extern_participants.length.times do |x| %>
+              <td id="column">0</td>
+            <% end %>
+            <% if blank_fields > 0 %>
+              <% blank_fields.times do |x| %>
+                <td id="column"><%= f.number_field "q[#{x + participants.length}][#{v + varieties.length}]", min: 0, value: 0, class: 'form-control' %></td>
+              <% end %>
             <% end %>
           </tr>
         <% end %>
         </tbody>
       </table>
-       <%= f.submit :Guardar ,class: "btn btn-primary"%>
-      <%= f.submit :Pedir, class: "btn btn-primary"%>
+      <%= f.submit :Guardar, class: "btn btn-secondary" %>
     <% end %>
   </div>
 </div>
+
+<script>
+    bootstrap_alert = function () {
+    }
+    bootstrap_alert.warning = function (message) {
+        $('#alert_linkOfer').html('<div class="alert alert-success" role="alert">' + message + '<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>')
+    }
+
+    $('#linkOfer').on('click', function () {
+        var aux = document.createElement("input");
+        aux.setAttribute("value", window.location.href);
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+        bootstrap_alert.warning('Se copió con éxito la dirección a la orden, ya puedes compartirla con tus compañeros');
+    });
+</script>​
