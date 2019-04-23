@@ -4,7 +4,7 @@ class Order < ApplicationRecord
   belongs_to :place, optional: true
 
   after_create do
-    hashids = Hashids.new(ENV['HASH_SALT'], 4, "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+    hashids = Hashids.new(ENV['HASH_SALT'], 4, "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
     self.slug = hashids.encode(self.id)
     self.open = true
   end
