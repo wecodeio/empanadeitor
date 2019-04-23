@@ -29,7 +29,7 @@ class OrdersController < ApplicationController
     if params[:commit] == "Pedir" and @order.quantity_participants > 0
       @order.update(open: false)
     else
-      if @order.quantity_participants < 0
+      if @order.quantity_participants == 0
         flash[:info] ='Esta orden no tiene preferencias cargadas.
                      Por favor asegurate de que tu o alguien de tu grupo envíe
                      sus preferencias antes de continuar.'
