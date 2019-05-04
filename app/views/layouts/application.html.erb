@@ -18,29 +18,44 @@
 </head>
 
 <body>
- <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
- <a class="navbar-brand" href=<%= root_path %>>Empanadeitor</a>
- <img src="<%= asset_path 'wecode.png' %>" width="30" height="30" alt="">  
- <div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+  <a class="navbar-brand" href=<%= root_path %>>Empanadeitor</a>
+  <img src="<%= asset_path 'wecode.png' %>" width="30" height="30" alt="">
+  <div>
     <ul class="social-network social-circle">
-    <li><a href='https://www.facebook.com/wecodeio' target='_blank' title="Facebook"><i class="fa fa-facebook"></i></a></li>
-    <li><a href='https://twitter.com/wecodeio' target='_blank' title="Twitter"><i class="fa fa-twitter"></i></a></li>
-    <li><a href='https://github.com/wecodeio' target='_blank' title="GitHub"><i class='fa fa-github'></i></a></li>
-    <li><a href='https://flickr.com/wecodeio' target='_blank' title="Flickr"><i class='fa fa-flickr'></i></a></li>
+      <li>
+        <a href='https://www.facebook.com/wecodeio' target='_blank' title="Facebook"><i class="fa fa-facebook"></i></a>
+      </li>
+      <li>
+        <a href='https://twitter.com/wecodeio' target='_blank' title="Twitter"><i class="fa fa-twitter"></i></a>
+      </li>
+      <li>
+        <a href='https://flickr.com/wecodeio' target='_blank' title="Flickr"><i class='fa fa-flickr'></i></a>
+      </li>
     </ul>
   </div>
 </nav>
 
-<div class="container">
+<a id="fork-me" href="https://github.com/wecodeio/empanadeitor">
+  <img width="149" height="149"
+       src="https://github.blog/wp-content/uploads/2008/12/forkme_left_red_aa0000.png?resize=149%2C149"
+       class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1">
+</a>
+
+<div class="container mb-5">
   <%= yield %>
 </div>
 
-<footer>
-    <div class="container text-center">
-      <a href='https://github.com/wecodeio/empanadeitor' target='_blank' class="btn btn-secondary btn-sm">
-        <i class="fa fa-github"></i> Colabora con nuestro proyecto
-      </a>
+<footer class="fixed-bottom">
+  <div class="container text-center">
+    <div class="row">
+      <div class="col">
+        <p id="footer-content">Hecho con <i class="fas fa-heart"></i>
+          por el equipo M de <a href="https://wecode.io/en/">WeCode</a></p>
+        </a>
+      </div>
     </div>
+  </div>
 </footer>
 </body>
 </html>
